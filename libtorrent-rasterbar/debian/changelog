@@ -1,0 +1,577 @@
+libtorrent-rasterbar (1.1.11-2) unstable; urgency=medium
+
+  * d/rules: Use boost-python >=1.67 soname suffix to fix
+    Python 3 linking (LP: #1800264).
+
+ -- Calum Lind <calumlind@gmail.com>  Sat, 08 Dec 2018 21:49:08 -0500
+
+libtorrent-rasterbar (1.1.11-1) unstable; urgency=medium
+
+  [ Ondřej Nový ]
+  * d/control: Remove ancient X-Python-Version field
+  * d/control: Remove ancient X-Python3-Version field
+
+  [ Ondřej Surý ]
+  * New upstream version 1.1.11
+  * Team upload.
+
+ -- Ondřej Surý <ondrej@debian.org>  Sun, 02 Dec 2018 09:38:41 +0000
+
+libtorrent-rasterbar (1.1.9-1) unstable; urgency=medium
+
+  [ Unit 193 ]
+  * New upstream release (Closes: #900975).
+    - d/p/python-dbg-build-fix.patch: Drop, wasn't in series, fixed upstream.
+    - d/p/fix-html-docs.patch: Refresh and extend patch.
+  * d/compat, d/control: Bump dh compat to 11.
+  * d/control:
+    - Add build-depend on dh-python.
+    - Drop versioned build-depend on dpkg-dev.
+    - Drop Pre-Depends on dpkg (Was for xz support.)
+    - Update homepage to https://libtorrent.org/ (Closes: #900946).
+    - Update Vcs-* for Salsa.
+    - Fix python3-libtorrent-dbg depend:
+      python-libtorrent →  python3-libtorrent (Closes: #906078).
+  * d/control, d/copyright, d/rules:
+    Upstream dropped geoip support, drop references.
+  * d/copyright:
+    - Update ConvertUTF.(cpp,h) license.
+    - Update 'format' field to use https.
+  * d/rules:
+    - Drop --parallel, autoreconf, and xz compression.  These are now default.
+  * Bump Standards-Version to 4.1.4.
+  * Remove trailing whitespaces under debian/*
+
+  [ Andrew Starr-Bochicchio ]
+  * New upstream release.
+
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Sat, 22 Sep 2018 20:54:52 -0400
+
+libtorrent-rasterbar (1.1.5-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Bump Standards-Version 4.1.2, no changes.
+
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Mon, 25 Dec 2017 14:29:03 -0500
+
+libtorrent-rasterbar (1.1.4-1) unstable; urgency=medium
+
+  * New upstream release (Closes: #857239).
+   - Fix file rename issue with name prefix matching
+     torrent name (Closes: #874136).
+   - Fix ABI compatibility issue introduced with
+     preformatted entry type (Closes: #842538).
+  * debian/libtorrent-rasterbar-doc.install:
+   - Adjust for new release.
+  * debian/control:
+   - All priority 'extra' packages are now 'optional.'
+   - Bump Standards-Version to 4.1.0.
+   - Drop un-needed build dep on dh-autoreconf.
+
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Sun, 03 Sep 2017 13:28:04 -0400
+
+libtorrent-rasterbar (1.1.1-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Drop remove-msse4.2.patch, fix-get-ip-filter.patch,
+    1.1.0-python-fixes.patch, and fix-invalid-input-crash.patch.
+    All applied upstream.
+  * Bump debian/compat to 10.
+  * Adjust install files for multi-arch.
+
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Sat, 29 Oct 2016 16:39:13 -0400
+
+libtorrent-rasterbar (1.1.0-3) unstable; urgency=medium
+
+  * fix-get-ip-filter.patch: Backport upstream fix for
+    crash in session::get_ip_filter (Closes: #834630).
+  * 1.1.0-python-fixes.patch: Backport a number of upstream
+    commits with fixes for the Python bindings.
+  * fix-invalid-input-crash.patch: Backport upstream commit
+    fixing crash on invalid input in http_parser.
+
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Tue, 23 Aug 2016 20:50:44 -0400
+
+libtorrent-rasterbar (1.1.0-2) unstable; urgency=medium
+
+  * Fix builds on arches where the multiarch tuple (i386-*) and
+    the GNU tuple (i686-*) differ (Closes: #833944).
+  * remove-msse4.2.patch: Backport upstream commit removing
+    -msse4.2 commandline option from configure script (Closes: #833944)
+
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Wed, 10 Aug 2016 20:23:29 -0400
+
+libtorrent-rasterbar (1.1.0-1) unstable; urgency=medium
+
+  * New upstream release.
+   - Fixes CVE-2016-5301, crash while parsing invalid
+     chunked HTTP or UPnP response (Closes: #826380).
+  * New package libtorrent-rasterbar9, bump library soname.
+  * Drop python-clean-without-bjam.patch, applied upstream.
+  * Drop missing_rst_file.patch, applied upstream.
+  * Build depend on libboost-chrono-dev and libboost-random-dev.
+  * python-dbg-build-fix.patch: Fix building bindings with python-dbg.
+    Thanks to Calum Lind.
+  * Bump Standards-Version to 3.9.8, no changes.
+  * Build with dh_autoreconf.
+
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Mon, 08 Aug 2016 23:38:37 -0400
+
+libtorrent-rasterbar (1.0.7-1) unstable; urgency=medium
+
+  * New upstream release (Closes: #806396).
+  * Update Source link in debian/copyright.
+  * debian/patches/missing_rst_file.patch: Add file missing
+    from upstream distribution.
+
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Fri, 27 Nov 2015 12:41:42 -0500
+
+libtorrent-rasterbar (1.0.6-2) unstable; urgency=medium
+
+  * Upload to unstable (Closes: #791176).
+
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Sat, 29 Aug 2015 12:55:09 -0400
+
+libtorrent-rasterbar (1.0.6-1) experimental; urgency=medium
+
+  * New upstream release (Closes: #785676).
+   - Bump library soname.
+  * Drop fix-python-build-missing-byteshpp.patch, applied upstream.
+  * python-clean-without-bjam.patch: Only use bjam when '--bjam'
+    is passed explicitly.
+  * Bump Standards-Version to 3.9.6, no changes.
+  * Point debian/watch at GitHub.
+
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Sat, 01 Aug 2015 18:03:37 -0400
+
+libtorrent-rasterbar (0.16.18-1) unstable; urgency=medium
+
+  * New upstream version.
+    - fix string handling in python3 bindings (Closes: #756503).
+  * debian/patches:
+    - fix-python-dbg-build.patch: drop, fixed upstream.
+    - fix-html-docs.patch: refresh.
+    - fix-python-build-missing-byteshpp.patch: new, fix missing file
+      from upstream tarball.
+
+ -- Cristian Greco <cristian@debian.org>  Sat, 18 Oct 2014 19:47:37 +0200
+
+libtorrent-rasterbar (0.16.17-2) unstable; urgency=medium
+
+  * debian/control: switch back to unversioned {build-,}depends
+    for boost libraries. (Closes: #759387)
+
+ -- Cristian Greco <cristian@debian.org>  Tue, 02 Sep 2014 22:48:17 +0200
+
+libtorrent-rasterbar (0.16.17-1) unstable; urgency=medium
+
+  * New upstream release.
+   - Don't fall back on wildcard port in UPnP (LP: #1330703).
+
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Sun, 22 Jun 2014 11:36:34 -0400
+
+libtorrent-rasterbar (0.16.16-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Update watch file to find new releases of sourceforge.
+
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Sat, 07 Jun 2014 15:39:40 -0400
+
+libtorrent-rasterbar (0.16.13-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Add myself as an uploader.
+  * Bump Standards-Version to 3.9.5, no changes needed.
+  * Update fix-html-docs.patch so that all docs are built from
+    source and fix lintian privacy-breach-google-adsense errors.
+
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Mon, 24 Feb 2014 14:11:14 -0500
+
+libtorrent-rasterbar (0.16.11-2.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Explicitly pass --with-boost-system=boost_system to configure
+    as ax_boost_system.m4 doesn't want to find it now that it
+    is multiarch. Fixes FTBFS (Closes: #738381).
+  * Fix build with python3.4 as a supported version, using python-config.
+
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Mon, 17 Feb 2014 12:19:53 -0500
+
+libtorrent-rasterbar (0.16.11-2) unstable; urgency=low
+
+  * debian/control: libtorrent-rasterbar-dev should depend on
+    boost-system1.54 (Closes: #726823).
+
+ -- Cristian Greco <cristian@debian.org>  Sat, 19 Oct 2013 20:26:01 +0200
+
+libtorrent-rasterbar (0.16.11-1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * New upstream version 0.16.11.
+    - fixes build with Boost 1.54 (Closes: #724708).
+  * fix-ftbfs-kfreebsd-iconv.patch: deleted (merged upstream).
+  * debian/rules: fix linking with boost_python libraries (Closes: #721546).
+  * debian/control:
+    - switch to boost1.54-dev | boost-dev deps.
+    - bump Standards-Version to 3.9.4 (no changes required).
+  * debian/copyright:
+    - update in according to Copyright format 1.0
+    - remove copyright holders whose code was deleted from source tree
+    - add missed copyright holders
+    - update years
+
+ -- Boris Pek <tehnick@debian.org>  Sat, 28 Sep 2013 20:27:56 +0300
+
+libtorrent-rasterbar (0.16.10-3.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Adjust python3-libtorrent.install to fix FTBFS when not built with
+    python3.2 support (Closes: #718666)
+
+ -- Scott Kitterman <scott@kitterman.com>  Sat, 03 Aug 2013 22:24:08 -0400
+
+libtorrent-rasterbar (0.16.10-3) unstable; urgency=low
+
+  * debian/patches:
+    - fix-ftbfs-kfreebsd-iconv.patch: new patch, fix
+      ftbfs on kfreebsd, thanks Pino Toscano! (Closes: #712797)
+    - refresh other patches.
+
+ -- Cristian Greco <cristian@debian.org>  Thu, 20 Jun 2013 21:18:23 +0200
+
+libtorrent-rasterbar (0.16.10-2) unstable; urgency=low
+
+  * Upload to unstable.
+    - fixes all ftbfs (Closes: #701311, #710624).
+  * debian/control: switch to conditional build-dep on
+    boost1.53-dev | boost-dev.
+
+ -- Cristian Greco <cristian@debian.org>  Mon, 17 Jun 2013 22:56:07 +0200
+
+libtorrent-rasterbar (0.16.10-1) experimental; urgency=low
+
+  * New upstream version 0.16.10.
+  * Build python3 packages (patch by Andrew Starr-Bochicchio
+    <asb@debian.org>) (Closes: #708072).
+  * debian/rules: add explicit configure arg --with-libiconv.
+
+ -- Cristian Greco <cristian@debian.org>  Sun, 26 May 2013 13:57:13 +0200
+
+libtorrent-rasterbar (0.16.9-1) experimental; urgency=low
+
+  * New upstream version 0.16.9.
+    - new package libtorrent-rasterbar7 (bump up library soname).
+    - debian/control: drop now useless (build-)deps.
+    - debian/control: switch to explicit boost1.53 (build-)deps.
+    - upload to experimental: the library is pretty stable, but will be
+      uploaded to unstable only after the transition of boost1.53.
+
+ -- Cristian Greco <cristian@debian.org>  Sun, 12 May 2013 10:48:57 +0200
+
+libtorrent-rasterbar (0.15.10-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Cristian Greco <cristian@debian.org>  Tue, 06 Mar 2012 21:27:49 +0100
+
+libtorrent-rasterbar (0.15.9-1) unstable; urgency=low
+
+  * New upstream version.
+  * debian/{control,rules}: compress binary packages with xz and add
+    Pre-Depends on dpkg (>= 1.15.6~).
+  * debian/rules: enable default hardening options from dpkg-buildflags.
+
+ -- Cristian Greco <cristian@debian.org>  Wed, 21 Dec 2011 13:08:22 +0100
+
+libtorrent-rasterbar (0.15.8-1) unstable; urgency=low
+
+  * New upstream version.
+    - fix-webseeds-r5915.patch: drop patch, fixed upstream.
+    - refreshed other patches.
+
+ -- Cristian Greco <cristian@debian.org>  Fri, 30 Sep 2011 13:21:21 +0200
+
+libtorrent-rasterbar (0.15.7-1) unstable; urgency=low
+
+  * New upstream version.
+    - fix-webseeds-r5915.patch: new patch, fix a web seeds bug caused
+      by a wrong merge commit.
+  * debian/control:
+    - use my @debian.org address.
+    - drop DMUA field.
+
+ -- Cristian Greco <cristian@debian.org>  Fri, 19 Aug 2011 18:47:49 +0200
+
+libtorrent-rasterbar (0.15.6-2) unstable; urgency=low
+
+  * debian/control: switch to dh_python2 for the python bindings.
+  * debian/rules: no need to pass -a to dh_strip and dh_makeshlibs.
+  * debian/patches:
+    - fix-html-docs.patch: renamed, added dep3 tags.
+    - fix-python-dbg-build.patch: new patch, fix wrong configure check
+      when building with pythonX-dbg.
+  * debian/{control,rules}: introducing a new python-libtorrent-dbg
+    package (Closes: #628041).
+
+ -- Cristian Greco <cristian@regolo.cc>  Mon, 20 Jun 2011 01:30:51 +0200
+
+libtorrent-rasterbar (0.15.6-1) unstable; urgency=low
+
+  * New upstream version.
+    - upload to unstable.
+  * Getting rid of the unneeded *.la file in -dev package
+    (Closes: #622461).
+  * debian/control: bump Standards-Version to 3.9.2.
+  * debian/README.Debian: fix a spelling error in an old entry
+    to make lintian happy.
+  * debian/rules: simplified a bit.
+  * debian/{control,rules}: drop "XS-Python-Version: all" and use
+    different pyversions options instead.
+
+ -- Cristian Greco <cristian@regolo.cc>  Tue, 10 May 2011 20:54:50 +0200
+
+libtorrent-rasterbar (0.15.5-1) experimental; urgency=low
+
+  * New upstream version.
+
+ -- Cristian Greco <cristian@regolo.cc>  Fri, 07 Jan 2011 17:36:29 +0100
+
+libtorrent-rasterbar (0.15.4-1) experimental; urgency=low
+
+  * New upstream version.
+    - upload to experimental: the library is pretty stable, but will be
+      uploaded to unstable only after the release of Squeeze and the
+      update of boost-defaults to boost1.44 (or higher).
+  * debian/control:
+    - new package libtorrent-rasterbar6 (bump up library soname).
+    - rework boost build-deps, drop unneeded.
+    - bump up Standards-Version to 3.9.1.
+  * debian/rules:
+    - rework (update) configuration options.
+    - bump debhelper build-dep to (>= 7.4.10) and enable parallel
+      build support.
+  * debian/copyright:
+    - updated to reflect upstream changes.
+    - fix copyright-refers-to-deprecated-bsd-license-file.
+  * debian/patches/100_fix_html_docs.patch: refreshed.
+  * debian/watch: use a simplified regexp.
+
+ -- Cristian Greco <cristian@regolo.cc>  Fri, 10 Dec 2010 00:18:46 +0100
+
+libtorrent-rasterbar (0.14.10-2) unstable; urgency=low
+
+  * debian/{control,rules}: build python-libtorrent for all supported
+    python versions. (Closes: #578078)
+  * debian/README.source: remove now unneeded file.
+
+ -- Cristian Greco <cristian@regolo.cc>  Sat, 17 Apr 2010 00:19:00 +0200
+
+libtorrent-rasterbar (0.14.10-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Cristian Greco <cristian@regolo.cc>  Wed, 24 Mar 2010 18:23:04 +0100
+
+libtorrent-rasterbar (0.14.9-1) unstable; urgency=low
+
+  * New upstream version.
+  * debian/libtorrent-rasterbar-doc.doc-base: fix spelling error.
+  * debian/patches/100_fix_html_docs.patch: refreshed.
+  * debian/control: bump up standards-version to 3.8.4 (no changes).
+
+ -- Cristian Greco <cristian@regolo.cc>  Sat, 20 Feb 2010 02:00:20 +0100
+
+libtorrent-rasterbar (0.14.8-1) unstable; urgency=low
+
+  * New upstream version.
+    - r4072_fix_broadcast_socket_regression.patch: dropped, included upstream.
+  * debian/control: add dependency on libgeoip-dev for -dev package.
+  * debian/watch: point download url to googlecode.
+
+ -- Cristian Greco <cristian@regolo.cc>  Thu, 14 Jan 2010 23:25:42 +0100
+
+libtorrent-rasterbar (0.14.7-2) unstable; urgency=low
+
+  * r4072_fix_broadcast_socket_regression.patch: new patch, pulled from
+    upstream svn (r4072).
+
+ -- Cristian Greco <cristian@regolo.cc>  Thu, 17 Dec 2009 13:21:49 +0100
+
+libtorrent-rasterbar (0.14.7-1) unstable; urgency=low
+
+  * New upstream version.
+  * debian/control:
+    - new maintainer email address.
+    - add DMUA field, thanks to my sponsor Michal Čihař.
+    - add build-dep on libboost-program-options-dev.
+  * Convert to 3.0 (quilt) source format.
+
+ -- Cristian Greco <cristian@regolo.cc>  Wed, 25 Nov 2009 16:29:30 +0100
+
+libtorrent-rasterbar (0.14.6-1) unstable; urgency=low
+
+  * New upstream version.
+  * debian/{control,rules}:
+    - build-dep on libgeoip-dev and pkg-config, thus enable building against
+      geoip system library. (Closes: #544462)
+    - drop build-dep on autotools-dev and don't overwrite config.{guess,sub}
+      as upstream now ships up-to-date files.
+  * debian/rules: drop the hack for boost1.39 as latest revision now
+    ship again the -mt simlinks.
+  * 010_r3796_r3797_fix_configure.patch: deleted (merged upstream).
+  * debian/README.source: fix reference to quilt doc.
+
+ -- Cristian Greco <cristian.debian@gmail.com>  Tue, 22 Sep 2009 12:58:26 +0200
+
+libtorrent-rasterbar (0.14.5-1) unstable; urgency=low
+
+  * New upstream version.
+    - new package libtorrent-rasterbar5 (bump up library soname).
+    - debian/patches:
+      + prefix patches with a number.
+      + 100_fix_html_docs.patch: improve description.
+      + new patch 010_r3796_r3797_fix_configure.patch (temporary fix).
+  * debian/control:
+    - move git package maintenance to collab-maint.
+    - bump up Standards-Version to 3.8.3 (no changes required).
+    - (build-)depends on zlib1g-dev instead of libz-dev (which is
+      a virtual package).
+    - build-depends on quilt (>= 0.46-7) and simplify debian/rules.
+  * debian/rules: allow building against boost 1.39 (which contains
+    libraries with no more -mt suffix) and try to retain compatibility
+    with older versions for ubuntu backports.
+
+ -- Cristian Greco <cristian.debian@gmail.com>  Tue, 25 Aug 2009 17:29:29 +0200
+
+libtorrent-rasterbar (0.14.4-1) unstable; urgency=low
+
+  * New upstream version.
+    - new package libtorrent-rasterbar4 (bump up library soname).
+  * debian/control:
+    - fix Vcs-Browser address;
+    - build depends on new unversioned boost -dev packages (this will cause
+      building against boost1.38). (Closes: #531114)
+  * debian/patches/fix_html_docs.patch: refresh patch as file
+    docs/libtorrent_plugins.rst was added upstream.
+  * debian/rules:
+    - now there is no need to remove the missing doc file generated by
+      fix_html_docs.patch as it has been fixed upstream;
+    - backup config.{sub,guess} before overwriting them during build, and
+      restore during clean.
+
+ -- Cristian Greco <cristian.debian@gmail.com>  Wed, 03 Jun 2009 13:05:21 +0200
+
+libtorrent-rasterbar (0.14.3-1) unstable; urgency=low
+
+  * New Upstream Version
+    - new package libtorrent-rasterbar3 (bump up library soname).
+  * debian/control:
+    - add Vcs-* stuff (switch to git-buildpackage) and bump up
+      Standards-Version to 3.8.1 (no changes required);
+    - build-depends on debhelper (>= 7.0.50) and use override_dh_command;
+    - move -dbg package to the new 'debug' section;
+    - build-depends on autotools-dev and overwrite config.{sub,guess} with a
+      recent version in debian/rules.
+    - build-depends on quilt and python-docutils:
+      + debian/patches/fix_html_docs.patch: fix html documentation for offline
+        browsing and add another missing doc file;
+      + rebuild docs at build time in debian/rules;
+  * debian/example.makefile: install a simple makefile for example programs
+    included in -doc package.
+  * debian/rules, debian/python-libtorrent.install: don't rely on hardcoded
+    python version, use --install-layout=deb when building python bindings,
+    and install to '*-packages' instead of 'site-packages' (this should
+    prepare for python2.6 and minimize Ubuntu diff).
+
+ -- Cristian Greco <cristian.debian@gmail.com>  Wed, 13 May 2009 12:08:59 +0200
+
+libtorrent-rasterbar (0.14.2-2) unstable; urgency=low
+
+  * debian/control, debian/rules: revert building only against boost1.37 since
+    the dependencies on the -dev packages are causing some problems with
+    reverse depends clients and backporting to stable is not really needed
+    (too much maintenance work) at the moment.
+  * debian/README.source: deleted.
+
+ -- Cristian Greco <cristian.debian@gmail.com>  Wed, 11 Mar 2009 16:27:20 +0100
+
+libtorrent-rasterbar (0.14.2-1) unstable; urgency=low
+
+  * New upstream version.
+    - new package libtorrent-rasterbar2 (bump up library SONAME);
+    - remove patch 01_fix_ax_python_m4.patch (merged upstream);
+    - debian/control, debian/rules, debian/README.source: drop build
+      dependency on quilt system.
+  * debian/control, debian/rules, debian/README.source: adjusting build
+    dependencies and configure flags to build against boost1.37 and continue
+    to provide compatibility with boost1.34.1 for backports (adding some notes).
+  * debian/control: fix lintian I:binary-control-field-duplicates-source.
+  * Moving section from 'Programming' to 'Programming/C++' for the doc-base
+    files in libtorrent-rasterbar-doc.
+  * Closing a bug already fixed in 0.14-1: fixed documentation about
+    storage_mode_allocate (Closes: #502241).
+  * Upload to unstable (Closes: #517000).
+
+ -- Cristian Greco <cristian.debian@gmail.com>  Fri, 27 Feb 2009 07:46:38 +0100
+
+libtorrent-rasterbar (0.14.1-1) experimental; urgency=low
+
+  * New upstream version
+    - remove patch 01_python_bindings.patch (included upstream);
+    - add patch 01_fix_ax_python_m4.patch (already merged upstream, see
+      description for details).
+  * Revert build-depends on libboost-dev (>= 1.34.1) and libasio-dev because
+    boost1.36 has been removed from unstable and boost1.37 is not yet fully
+    supported by the library (added notes on README.Debian).
+  * Install .cpp examples using dh_installexamples and a .examples file.
+  * debian/copyright: fix main BSD license text.
+
+ -- Cristian Greco <cristian.debian@gmail.com>  Mon, 15 Dec 2008 15:34:17 +0100
+
+libtorrent-rasterbar (0.14-1) experimental; urgency=low
+
+  * New upstream version.
+    - debian/copyright: new and updated copyright notes and files.
+    - debian/control:
+      + build-depends on libboost1.36-dev and python-dev;
+      + new package libtorrent-rasterbar1 (bump up library SONAME);
+      + new package python-libtorrent which contains python bindings
+        for the library.
+    - debian/rules:
+      + use multi-threaded boost libraries (--with-boost-system=mt, ...);
+      + add --disable-examples and --disable-tests options;
+      + delete specific information about debian revision in dh_makeshlibs
+        (i.e., use only dh_makeshlibs -V).
+    - debian/control, debian/rules, debian/README.source, debian/patches:
+      build-depends on quilt patch system and install a patch of mine
+      (01_python_bindings, already merged upstream) in order to build python
+      bindings; use a temporary fix for the 'clean' target.
+  * Install example files (.cpp) with the -doc package.
+  * Provide a doc-base control file to install html docs
+    (libtorrent-rasterbar-doc.doc-base).
+  * debian/README.Debian: new notes about the python package and the lintian
+    tag 'no-symbols-control-file' for libtorrent-rasterbar1.
+  * Close a bug in Ubuntu about build with --disable-debug, already solved
+    with 0.13.1-2  (LP: #291448).
+  * Upload to experimental to test the new python bindings package.
+  * New maintainer email address.
+
+ -- Cristian Greco <cristian.debian@gmail.com>  Sun, 23 Nov 2008 18:55:24 +0100
+
+libtorrent-rasterbar (0.13.1-2) unstable; urgency=low
+
+  * debian/rules:
+    - build with --disable-debug option because enabling debug seems to cause
+    some clients to crash, and most upstream authors prefer a release build of
+    the library.
+    - added specific version information to dh_makeshlibs so that reverse
+    dependencies will depend on this particular version.
+  * README.Debian: updated with info about --disable-debug.
+
+ -- Cristian Greco <cgreco@cs.unibo.it>  Wed, 23 Jul 2008 11:18:31 +0200
+
+libtorrent-rasterbar (0.13.1-1) unstable; urgency=low
+
+  * Initial release (Closes: #402462)
+
+ -- Cristian Greco <cgreco@cs.unibo.it>  Wed, 02 Jul 2008 10:46:21 +0200

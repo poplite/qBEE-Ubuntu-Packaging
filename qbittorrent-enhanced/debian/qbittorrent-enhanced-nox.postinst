@@ -1,0 +1,25 @@
+#! /bin/sh
+
+set -e
+
+QBTUSER="qbtuser"
+
+uid=`getent passwd $QBTUSER | cut -d ":" -f 3`
+
+# Create a user for qBittorent daemon service
+if [ "$uid" ]; then
+	echo "User '$QBTUSER' is already existed in your system, skip creating..."
+else
+	echo "Creating user '$QBTUSER' for daemon service..."
+	adduser --quiet \
+		--system \
+		--disabled-password \
+		--shell /usr/sbin/nologin \
+		--group \
+		"$QBTUSER"
+fi
+
+#DEBHELPER#
+
+exit 0
+

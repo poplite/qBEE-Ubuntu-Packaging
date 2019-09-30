@@ -1,0 +1,78 @@
+Source: qbittorrent-enhanced
+Section: net
+Priority: optional
+Maintainer: poplite <poplite.xyz@gmail.com>
+Build-Depends: debhelper (>= 9),
+               dh-systemd,
+               dpkg-dev (>= 1.16.1),
+               libtorrent-rasterbar-dev (>= 1.1.12),
+               libboost-dev,
+               libqt5svg5-dev,
+               qtbase5-dev (>= 5.2.0),
+               qttools5-dev-tools,
+               zlib1g-dev
+Standards-Version: 4.3.0
+Homepage: https://github.com/c0re100/qBittorrent-Enhanced-Edition
+
+Package: qbittorrent-enhanced
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends},
+         python (>= 2.5), geoip-database
+Suggests: qbittorrent-enhanced-dbg
+Conflicts: qbittorrent
+Description: bittorrent client based on libtorrent-rasterbar with a Qt5 GUI (Enhanced Edition)
+ BitTorrent client written in C++ and based on libtorrent-rasterbar with a Qt5
+ user interface. qBittorrent is a feature rich but lightweight client that is
+ very similar to uTorrent. Its main features are:
+ .
+  * Polished uTorrent-like user interface
+  * Well integrated and extensible search engine
+  * Remote control through a Web user interface
+  * Vuze-compatible protocol encryption
+  * uTorrent-compatible Peer eXchange (PeX)
+  * DHT (trackerless) support
+  * UPnP / NAT-PMP port forwarding
+  * IPv6 compliant
+  * RSS support with advanced download filters
+  * Advanced control over torrent content and trackers
+  * IP Filtering (eMule / Peer Guardian filters)
+  * Torrents queueing and prioritizing
+  * Good localization (~25 languages supported)
+  * Unicode support
+
+Package: qbittorrent-enhanced-nox
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, adduser, lsb-base
+Suggests: qbittorrent-enhanced-dbg
+Conflicts: qbittorrent-nox
+Description: bittorrent client based on libtorrent-rasterbar (Enhanced Edition) (without X support)
+ BitTorrent client written in C++ and based on libtorrent-rasterbar.
+ qBittorrent-nox is a version of qBittorrent (Qt5 application) that does not
+ require X and can be controlled via a WebUI, thus is more suitable for headless
+ servers. It is a feature rich but lightweight client that is very similar to
+ rTorrent. Its main features are:
+ .
+  * Remote control through a Web user interface
+  * Vuze-compatible protocol encryption
+  * uTorrent-compatible Peer eXchange (PeX)
+  * DHT (trackerless) support
+  * UPnP / NAT-PMP port forwarding
+  * IPv6 compliant
+  * Advanced control over torrent content and trackers
+  * IP Filtering (eMule / Peer Guardian filters)
+  * Torrents queueing and prioritizing
+  * Good localization (~25 languages supported)
+  * Unicode support
+
+#Package: qbittorrent-enhanced-dbg
+#Architecture: any
+#Section: debug
+#Depends: qbittorrent-enhanced (= ${binary:Version}) | qbittorrent-enhanced-nox (= ${binary:Version}), ${misc:Depends}
+#Conflicts: qbittorrent-dbg
+#Description: debug symbols for qbittorrent-enhanced and qbittorrent-enhanced-nox
+# BitTorrent client written in C++ and based on libtorrent-rasterbar with a Qt5
+# user interface. qBittorrent is a feature rich but lightweight client that is
+# very similar to uTorrent.
+# .
+# This package contains the debugging symbols for qbittorrent-enhanced and
+# qbittorrent-enhanced-nox.

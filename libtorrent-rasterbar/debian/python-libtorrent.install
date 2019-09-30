@@ -1,0 +1,2 @@
+usr/lib/python2*/*-packages/libtorrent.so
+usr/lib/python2*/*-packages/*.egg-info

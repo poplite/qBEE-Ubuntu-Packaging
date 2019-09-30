@@ -1,0 +1,162 @@
+Source: libtorrent-rasterbar
+Section: libs
+Priority: optional
+Maintainer: Cristian Greco <cristian@debian.org>
+Uploaders: Andrew Starr-Bochicchio <asb@debian.org>
+Build-Depends: debhelper (>= 9),
+               dh-python,
+               libboost-system-dev,
+               libboost-python-dev,
+               libboost-chrono-dev,
+               libboost-random-dev,
+               libssl-dev,
+               pkg-config,
+               python-all-dev (>= 2.6.6-3~),
+               python-all-dbg,
+               python-docutils,
+               python3-all-dev,
+               python3-all-dbg,
+               python3-docutils
+Standards-Version: 4.1.4
+Vcs-Git: https://salsa.debian.org/debian/libtorrent-rasterbar.git
+Vcs-Browser: https://salsa.debian.org/debian/libtorrent-rasterbar/
+Homepage: https://libtorrent.org/
+
+Package: libtorrent-rasterbar9
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Suggests: libtorrent-rasterbar-dbg
+Description: C++ bittorrent library by Rasterbar Software
+ Bittorrent library by Rasterbar Software (Arvid Norberg).
+ libtorrent-rasterbar is a C++ library that aims to be a good alternative to
+ all the other bittorrent implementations around.
+ .
+ The main goals of libtorrent-rasterbar are:
+  * to be cpu efficient
+  * to be memory efficient
+  * to be very easy to use
+ .
+ This package contains libtorrent-rasterbar run time shared library.
+
+Package: libtorrent-rasterbar-dev
+Section: libdevel
+Architecture: any
+Depends: ${misc:Depends},
+         libtorrent-rasterbar9 (= ${binary:Version}),
+         libboost-system-dev,
+         libssl-dev,
+         pkg-config
+Suggests: libtorrent-rasterbar-doc
+Description: Development files for libtorrent-rasterbar
+ Bittorrent library by Rasterbar Software (Arvid Norberg).
+ libtorrent-rasterbar is a C++ library that aims to be a good alternative to
+ all the other bittorrent implementations around.
+ .
+ The main goals of libtorrent-rasterbar are:
+  * to be cpu efficient
+  * to be memory efficient
+  * to be very easy to use
+ .
+ This package contains header files and static version of the library.
+
+Package: libtorrent-rasterbar-dbg
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, libtorrent-rasterbar9 (= ${binary:Version})
+Description: Debug symbols for libtorrent-rasterbar
+ Bittorrent library by Rasterbar Software (Arvid Norberg).
+ libtorrent-rasterbar is a C++ library that aims to be a good alternative to
+ all the other bittorrent implementations around.
+ .
+ The main goals of libtorrent-rasterbar are:
+  * to be cpu efficient
+  * to be memory efficient
+  * to be very easy to use
+ .
+ This package contains debugging symbols.
+
+Package: libtorrent-rasterbar-doc
+Section: doc
+Architecture: all
+Depends: ${misc:Depends}
+Description: Documentation for libtorrent-rasterbar
+ Bittorrent library by Rasterbar Software (Arvid Norberg).
+ libtorrent-rasterbar is a C++ library that aims to be a good alternative to
+ all the other bittorrent implementations around.
+ .
+ The main goals of libtorrent-rasterbar are:
+  * to be cpu efficient
+  * to be memory efficient
+  * to be very easy to use
+ .
+ This package contains documentation and example files.
+
+Package: python-libtorrent
+Section: python
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, libtorrent-rasterbar9 (= ${binary:Version})
+Provides: ${python:Provides}
+Breaks: ${python:Breaks}
+Description: Python bindings for libtorrent-rasterbar
+ Bittorrent library by Rasterbar Software (Arvid Norberg).
+ libtorrent-rasterbar is a C++ library that aims to be a good alternative to
+ all the other bittorrent implementations around.
+ .
+ The main goals of libtorrent-rasterbar are:
+  * to be cpu efficient
+  * to be memory efficient
+  * to be very easy to use
+ .
+ This package contains Python bindings for the libtorrent-rasterbar library.
+
+Package: python-libtorrent-dbg
+Section: debug
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-libtorrent (= ${binary:Version}), python-dbg
+Provides: ${python:Provides}
+Breaks: ${python:Breaks}
+Description: Python bindings for libtorrent-rasterbar (debug symbols)
+ Bittorrent library by Rasterbar Software (Arvid Norberg).
+ libtorrent-rasterbar is a C++ library that aims to be a good alternative to
+ all the other bittorrent implementations around.
+ .
+ The main goals of libtorrent-rasterbar are:
+  * to be cpu efficient
+  * to be memory efficient
+  * to be very easy to use
+ .
+ This package contains Python bindings for the libtorrent-rasterbar library
+ (debug symbols).
+
+Package: python3-libtorrent
+Section: python
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python3:Depends}, libtorrent-rasterbar9 (= ${binary:Version})
+Description: Python bindings for libtorrent-rasterbar (Python 3)
+ Bittorrent library by Rasterbar Software (Arvid Norberg).
+ libtorrent-rasterbar is a C++ library that aims to be a good alternative to
+ all the other bittorrent implementations around.
+ .
+ The main goals of libtorrent-rasterbar are:
+  * to be cpu efficient
+  * to be memory efficient
+  * to be very easy to use
+ .
+ This package contains Python 3 bindings for the libtorrent-rasterbar library.
+
+Package: python3-libtorrent-dbg
+Section: debug
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python3:Depends}, python3-libtorrent (= ${binary:Version}), python3-dbg
+Description: Python bindings for libtorrent-rasterbar (debug symbols) (Python 3)
+ Bittorrent library by Rasterbar Software (Arvid Norberg).
+ libtorrent-rasterbar is a C++ library that aims to be a good alternative to
+ all the other bittorrent implementations around.
+ .
+ The main goals of libtorrent-rasterbar are:
+  * to be cpu efficient
+  * to be memory efficient
+  * to be very easy to use
+ .
+ This package contains Python 3 bindings for the libtorrent-rasterbar library
+ (debug symbols).

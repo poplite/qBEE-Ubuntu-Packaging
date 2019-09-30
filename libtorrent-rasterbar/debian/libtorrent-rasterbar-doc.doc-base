@@ -1,0 +1,11 @@
+Document: libtorrent-rasterbar
+Section: Programming/C++
+Title: Libtorrent-rasterbar Documentation
+Author: Arvid Norberg
+Abstract: This documentation describes mainly the API
+ interface of libtorrent-rasterbar and contains other
+ useful information for developers.
+
+Format: HTML
+Index: /usr/share/doc/libtorrent-rasterbar-doc/html/index.html
+Files: /usr/share/doc/libtorrent-rasterbar-doc/html/*.html

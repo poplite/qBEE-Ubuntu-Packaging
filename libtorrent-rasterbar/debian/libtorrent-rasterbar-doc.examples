@@ -1,0 +1,2 @@
+examples/*.cpp
+debian/examples.makefile

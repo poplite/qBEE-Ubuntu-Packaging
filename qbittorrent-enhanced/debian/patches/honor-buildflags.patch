@@ -1,0 +1,21 @@
+Description: Let the build system honor flags obtained through dpkg-buildflags.
+Origin: vendor
+Forwarded: no
+Author: Cristian Greco <cristian@debian.org>
+
+Index: qbittorrent/unixconf.pri
+===================================================================
+--- qbittorrent.orig/unixconf.pri	2018-09-23 18:07:17.491619461 -0400
++++ qbittorrent/unixconf.pri	2018-09-23 18:08:57.342001409 -0400
+@@ -12,8 +12,9 @@
+ # COMPILATION SPECIFIC
+ !nogui:dbus: QT += dbus
+ 
+-QMAKE_CXXFLAGS += -Wall -Wextra -Wpedantic -Wformat-security
+-!haiku: QMAKE_LFLAGS_APP += -rdynamic
++QMAKE_CXXFLAGS += -Wall -Wextra -Wpedantic -Wformat-security $$(CXXFLAGS) $$(CPPFLAGS)
++QMAKE_LFLAGS_RELEASE += $$(LDFLAGS)
++!haiku: QMAKE_LFLAGS_APP += -rdynamic $$(LDFLAGS)
+ 
+ # Man page
+ nogui {

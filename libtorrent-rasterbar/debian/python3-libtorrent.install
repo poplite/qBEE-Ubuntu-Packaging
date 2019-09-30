@@ -1,0 +1,2 @@
+usr/lib/python3*/*-packages/*[!d]m*.so
+usr/lib/python3*/*-packages/*.egg-info

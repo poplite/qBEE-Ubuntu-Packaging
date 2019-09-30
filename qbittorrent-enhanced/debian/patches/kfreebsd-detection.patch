@@ -1,0 +1,31 @@
+Subject: use -lexecinfo on FreeBSD, but not GNU/kFreeBSD
+From: Steven Chamberlain <steven@pyro.eu.org>
+Date: Sun, 21 Feb 2016 01:30:09 +0000
+Debian-Bug: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=815371
+
+Index: qbittorrent/configure.ac
+===================================================================
+--- qbittorrent.orig/configure.ac	2018-09-23 18:09:29.646778507 -0400
++++ qbittorrent/configure.ac	2018-09-23 18:09:29.642778409 -0400
+@@ -58,7 +58,7 @@
+ 
+ # Detect OS
+ AC_MSG_CHECKING([whether OS is FreeBSD])
+-AS_IF([expr "$host_os" : ".*freebsd.*" > /dev/null],
++AS_IF([expr "$host_os" : "freebsd.*" > /dev/null],
+       [AC_MSG_RESULT([yes])
+       LIBS="-lexecinfo $LIBS"],
+       [AC_MSG_RESULT([no])])
+Index: qbittorrent/configure
+===================================================================
+--- qbittorrent.orig/configure	2018-09-23 18:09:29.646778507 -0400
++++ qbittorrent/configure	2018-09-23 18:09:29.642778409 -0400
+@@ -4238,7 +4238,7 @@
+ # Detect OS
+ { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether OS is FreeBSD" >&5
+ $as_echo_n "checking whether OS is FreeBSD... " >&6; }
+-if expr "$host_os" : ".*freebsd.*" > /dev/null; then :
++if expr "$host_os" : "freebsd.*" > /dev/null; then :
+   { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+ $as_echo "yes" >&6; }
+       LIBS="-lexecinfo $LIBS"

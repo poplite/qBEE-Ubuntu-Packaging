@@ -1,0 +1,13 @@
+[Unit]
+Description=qBittorrent Enhanced Daemon Service
+After=network.target
+
+[Service]
+Type=simple
+PrivateTmp=false
+User=qbtuser
+ExecStart=/usr/bin/qbittorrent-nox
+ExecStop=/usr/bin/killall -w qbittorrent-nox
+
+[Install]
+WantedBy=multi-user.target
