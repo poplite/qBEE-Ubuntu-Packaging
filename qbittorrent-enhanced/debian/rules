@@ -25,6 +25,9 @@ override_dh_auto_install:
 	dh_auto_install --builddirectory build-gui --destdir debian/qbittorrent-enhanced \
 		-- INSTALL_ROOT=$(CURDIR)/debian/qbittorrent-enhanced
 
+override_dh_installinit:
+	dh_installinit --no-start
+
 override_dh_systemd_start:
 	dh_systemd_start --no-start
 
