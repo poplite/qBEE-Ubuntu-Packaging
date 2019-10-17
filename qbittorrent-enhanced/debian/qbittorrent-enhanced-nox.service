@@ -7,7 +7,7 @@ Type=simple
 PrivateTmp=false
 User=qbtuser
 ExecStart=/usr/bin/qbittorrent-nox
-ExecStop=/usr/bin/killall -w qbittorrent-nox
+ExecStop=/usr/bin/killall -u qbtuser -w qbittorrent-nox
 
 [Install]
 WantedBy=multi-user.target
