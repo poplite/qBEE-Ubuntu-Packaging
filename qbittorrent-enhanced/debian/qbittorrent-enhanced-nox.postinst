@@ -7,9 +7,7 @@ QBTUSER="qbtuser"
 uid=`getent passwd $QBTUSER | cut -d ":" -f 3`
 
 # Create a user for qBittorent daemon service
-if [ "$uid" ]; then
-	echo "User '$QBTUSER' is already existed in your system, skip creating..."
-else
+if [ ! "$uid" ]; then
 	echo "Creating user '$QBTUSER' for daemon service..."
 	adduser --quiet \
 		--system \
