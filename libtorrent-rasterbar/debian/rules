@@ -59,8 +59,8 @@ override_dh_auto_clean:
 override_dh_compress:
 	dh_compress -Xcpp
 
-override_dh_strip:
-	dh_strip --dbg-package=libtorrent-rasterbar-dbg
+#override_dh_strip:
+#	dh_strip --dbg-package=libtorrent-rasterbar-dbg
 
 override_dh_makeshlibs:
 	dh_makeshlibs -V

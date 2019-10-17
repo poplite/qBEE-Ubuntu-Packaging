@@ -49,7 +49,7 @@ fi
 DEBUILD_OPT="-uc -us -rfakeroot"
 
 BUILD_DEPENDS="debhelper dh-python build-essential pkg-config devscripts fakeroot quilt curl tar"
-DEPENDS="libboost-system-dev libboost-python-dev libboost-chrono-dev libboost-random-dev libssl-dev python-all-dev python-all-dbg python-docutils python3-all-dev python3-all-dbg python3-docutils"
+DEPENDS="libboost-system-dev libboost-python-dev libboost-chrono-dev libboost-random-dev libssl-dev python-all-dev python-docutils python3-all-dev python3-docutils"
 
 BUILD_DIR="${DEB_VERSION}-build"
 SOURCE_DIR="${PROGRAM_NAME}-${DEB_VERSION}"
