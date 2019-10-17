@@ -20,6 +20,8 @@
 
 set -e
 
+VERSION="1.1"
+
 PROGRAM_NAME="qbittorrent-enhanced"
 SCRIPT_NAME=$0
 
@@ -27,10 +29,10 @@ SCRIPT_NAME=$0
 DEB_VERSION=$1
 SUB_VERSION=${2:-"1"}
 
-# Current supported distribution
-DISTROS="xenial bionic disco"
+# Supported distributions
+DISTROS=${DISTROS:-"xenial bionic disco"}
 
-# Maintainer infomation, needed by dch
+# Maintainer information, needed by dch
 export DEBFULLNAME="poplite"
 export DEBEMAIL="poplite.xyz@gmail.com"
 
@@ -130,7 +132,6 @@ do
     sed "s/%DISTRO%/${DISTRO}/g" ../changelog.template > debian/changelog
     debuild -S ${DEBUILD_OPT}
 done 
-rm ../changelog.template
 echo_clr "All changes files signed."
 cd ..
 ls -lh *.changes

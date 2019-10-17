@@ -20,6 +20,8 @@
 
 set -e
 
+VERSION="1.1"
+
 PROGRAM_NAME="libtorrent-rasterbar"
 SCRIPT_NAME=$0
 
@@ -29,11 +31,13 @@ SUB_VERSION="1"
 DISTRO=${2:-$(lsb_release -sc || true)} # ignore error
 ARCH=$(dpkg --print-architecture)
 
-# Maintainer infomation, needed by dch
+# Maintainer information, needed by dch
 export DEBFULLNAME="poplite"
 export DEBEMAIL="poplite.xyz@gmail.com"
 
-USE_OLD_URL_FORMAT=false
+# If true, use 'libtorrent_1_X_X' instead of 'libtorrent-1_X_X'
+USE_OLD_URL_FORMAT=${USE_OLD_URL_FORMAT:-false}
+
 # Check if running as root
 if [[ $(id -u) != 0 ]];
 then
@@ -55,7 +59,7 @@ if ! ${USE_OLD_URL_FORMAT};
 then
     TARBALL_URL="https://github.com/arvidn/libtorrent/releases/download/libtorrent-${DEB_VERSION//./_}/libtorrent-rasterbar-${DEB_VERSION}.tar.gz"
 else
-    TARBALL_URL="https://github.com/arvidn/libtorrent/releases/download/libtorrent_${DEB_VERSION//./_}/libtorrent-rasterbar_${DEB_VERSION}.tar.gz"
+    TARBALL_URL="https://github.com/arvidn/libtorrent/releases/download/libtorrent_${DEB_VERSION//./_}/libtorrent-rasterbar-${DEB_VERSION}.tar.gz"
 fi
 
 BOLD_GREEN="\e[1;32m"
@@ -103,10 +107,6 @@ curl -L "${TARBALL_URL}" -o "${TARBALL}"
 
 # 4. Extract the tarball
 tar -xzf "${TARBALL}"
-if ${USE_OLD_URL_FORMAT};
-then
-    mv "libtorrent-libtorrent_${DEB_VERSION}" "${SOURCE_DIR}"
-fi
 
 # 5. Copy debian directory
 cp -R ../debian "${SOURCE_DIR}"

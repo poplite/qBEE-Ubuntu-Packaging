@@ -20,6 +20,8 @@
 
 set -e
 
+VERSION="1.1"
+
 PROGRAM_NAME="libtorrent-rasterbar"
 SCRIPT_NAME=$0
 
@@ -27,16 +29,19 @@ SCRIPT_NAME=$0
 DEB_VERSION=$1
 SUB_VERSION=${2:-"1"}
 
-# Current supported distribution
-DISTROS="xenial bionic disco"
+# Supported distributions
+DISTROS=${DISTROS:-"xenial bionic disco"}
 
-# Maintainer infomation, needed by dch
+# Maintainer information, needed by dch
 export DEBFULLNAME="poplite"
 export DEBEMAIL="poplite.xyz@gmail.com"
 
 # PPA infomation
 PPA_URL="ppa:poplite/qbittorrent-enhanced"
 PPA_KEY="F1B89752"
+
+# If true, use 'libtorrent_1_X_X' instead of 'libtorrent-1_X_X'
+USE_OLD_URL_FORMAT=${USE_OLD_URL_FORMAT:-false}
 
 DEBUILD_OPT="-k${PPA_KEY}"
 # Prefer using gpg2 for package signing
@@ -45,8 +50,6 @@ then
     DEBUILD_OPT="${DEBUILD_OPT} -pgpg2"
 fi
 
-USE_OLD_URL_FORMAT=false
-
 SOURCE_DIR="${PROGRAM_NAME}-${DEB_VERSION}"
 TARBALL="${PROGRAM_NAME}_${DEB_VERSION}.orig.tar.gz"
 
@@ -54,7 +57,7 @@ if ! ${USE_OLD_URL_FORMAT};
 then
     TARBALL_URL="https://github.com/arvidn/libtorrent/releases/download/libtorrent-${DEB_VERSION//./_}/libtorrent-rasterbar-${DEB_VERSION}.tar.gz"
 else
-    TARBALL_URL="https://github.com/arvidn/libtorrent/releases/download/libtorrent_${DEB_VERSION//./_}/libtorrent-rasterbar_${DEB_VERSION}.tar.gz"
+    TARBALL_URL="https://github.com/arvidn/libtorrent/releases/download/libtorrent_${DEB_VERSION//./_}/libtorrent-rasterbar-${DEB_VERSION}.tar.gz"
 fi
 
 BOLD_GREEN="\e[1;32m"
@@ -108,10 +111,6 @@ curl -L "${TARBALL_URL}" -o "${TARBALL}"
 
 # 3. Extract the tarball
 tar -xzf "${TARBALL}"
-if ${USE_OLD_URL_FORMAT};
-then
-    mv "libtorrent-libtorrent_${DEB_VERSION}" "${SOURCE_DIR}"
-fi
 
 # 4. Copy debian directory
 cp -R ../debian "${SOURCE_DIR}"
@@ -141,7 +140,6 @@ do
     sed "s/%DISTRO%/${DISTRO}/g" ../changelog.template > debian/changelog
     debuild -S ${DEBUILD_OPT}
 done 
-rm ../changelog.template
 echo_clr "All changes files signed."
 cd ..
 ls -lh *.changes

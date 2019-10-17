@@ -18,7 +18,7 @@ Package: qbittorrent-enhanced
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
          python (>= 2.5), geoip-database
-Suggests: qbittorrent-enhanced-dbg
+#Suggests: qbittorrent-enhanced-dbg
 Conflicts: qbittorrent
 Description: bittorrent client based on libtorrent-rasterbar with a Qt5 GUI (Enhanced Edition)
  BitTorrent client written in C++ and based on libtorrent-rasterbar with a Qt5
@@ -43,7 +43,7 @@ Description: bittorrent client based on libtorrent-rasterbar with a Qt5 GUI (Enh
 Package: qbittorrent-enhanced-nox
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, adduser, lsb-base
-Suggests: qbittorrent-enhanced-dbg
+#Suggests: qbittorrent-enhanced-dbg
 Conflicts: qbittorrent-nox
 Description: bittorrent client based on libtorrent-rasterbar (Enhanced Edition) (without X support)
  BitTorrent client written in C++ and based on libtorrent-rasterbar.

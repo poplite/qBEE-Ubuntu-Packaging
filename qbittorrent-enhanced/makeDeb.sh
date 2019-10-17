@@ -20,6 +20,8 @@
 
 set -e
 
+VERSION="1.1"
+
 PROGRAM_NAME="qbittorrent-enhanced"
 SCRIPT_NAME=$0
 
@@ -29,7 +31,7 @@ SUB_VERSION="1"
 DISTRO=${2:-$(lsb_release -sc || true)} # ignore error
 ARCH=$(dpkg --print-architecture)
 
-# Maintainer infomation, needed by dch
+# Maintainer information, needed by dch
 export DEBFULLNAME="poplite"
 export DEBEMAIL="poplite.xyz@gmail.com"
 
