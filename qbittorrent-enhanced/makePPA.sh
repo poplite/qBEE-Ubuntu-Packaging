@@ -37,7 +37,7 @@ export DEBFULLNAME="poplite"
 export DEBEMAIL="poplite.xyz@gmail.com"
 
 # PPA infomation
-PPA_URL="ppa:poplite/qbittorrent-enhanced"
+PPA_URL=${PPA_URL:-"ppa:poplite/qbittorrent-enhanced"}
 PPA_KEY="F1B89752"
 
 DEBUILD_OPT="-k${PPA_KEY}"

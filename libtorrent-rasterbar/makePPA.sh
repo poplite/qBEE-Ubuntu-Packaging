@@ -37,7 +37,7 @@ export DEBFULLNAME="poplite"
 export DEBEMAIL="poplite.xyz@gmail.com"
 
 # PPA infomation
-PPA_URL="ppa:poplite/qbittorrent-enhanced"
+PPA_URL=${PPA_URL:-"ppa:poplite/qbittorrent-enhanced"}
 PPA_KEY="F1B89752"
 
 # If true, use 'libtorrent_1_X_X' instead of 'libtorrent-1_X_X'
@@ -128,7 +128,7 @@ dch --package "${PROGRAM_NAME}" \
     --force-distribution \
     --force-bad-version \
     --newversion "${DEB_VERSION}-${SUB_VERSION}ppa1~%DISTRO%1" \
-    "New upstream version ${DEB_VERSION}"
+    "New upstream version ${DEB_VERSION}" 2</dev/null
 head -n 5 debian/changelog
 
 # 7. Create and sign changes files
