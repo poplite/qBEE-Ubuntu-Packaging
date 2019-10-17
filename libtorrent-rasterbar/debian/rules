@@ -7,7 +7,7 @@ export DEB_LDFLAGS_MAINT_APPEND  = -Wl,--as-needed
 
 PYTHON2=$(shell pyversions -vr)
 PYTHON3=$(shell py3versions -vr)
-ALLPY=$(PYTHON2) $(PYTHON3) $(PYTHON2:%=%-dbg) $(PYTHON3:%=%-dbg)
+ALLPY=$(PYTHON2) $(PYTHON3)
 
 CONFIGURE_ARGS = --with-libiconv --with-boost-libdir=/usr/lib/$(DEB_HOST_MULTIARCH) CXXFLAGS=-std=c++11 CPPFLAGS=-std=c++11
 
@@ -25,7 +25,7 @@ override_dh_auto_configure-%:
 		PYTHON_INSTALL_PARAMS="--root=$(CURDIR)/debian/tmp \
 		--install-layout=deb" \
 		--enable-python-binding \
-		--with-boost-python=boost_python$(subst .,,$(subst -dbg,,$*)) \
+		--with-boost-python=boost_python$(subst .,,$*) \
 		$(CONFIGURE_ARGS)
 	mv build-py$*/bindings/python build/bindings/python$*
 	cp -r bindings/python/* build/bindings/python$*
