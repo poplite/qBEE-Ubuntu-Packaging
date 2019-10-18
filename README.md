@@ -14,5 +14,5 @@ Now available on:
 * **Ubuntu 16.04 (Xenial)**
 * **Ubuntu 18.04 (Bionic)**
 * **Ubuntu 19.04 (Disco)**
-* Ubuntu 19.10 (Eoan) [Soon]
+* **Ubuntu 19.10 (Eoan)**
 
