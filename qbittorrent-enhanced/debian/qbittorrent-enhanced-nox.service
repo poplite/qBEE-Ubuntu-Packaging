@@ -9,6 +9,7 @@ User=qbtuser
 LimitNOFILE=32768
 ExecStart=/usr/bin/qbittorrent-nox
 ExecStop=/usr/bin/killall -u qbtuser -w qbittorrent-nox
+TimeoutSec=120
 
 [Install]
 WantedBy=multi-user.target
