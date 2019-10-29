@@ -6,6 +6,7 @@ After=network.target
 Type=simple
 PrivateTmp=false
 User=qbtuser
+LimitNOFILE=32768
 ExecStart=/usr/bin/qbittorrent-nox
 ExecStop=/usr/bin/killall -u qbtuser -w qbittorrent-nox
 
