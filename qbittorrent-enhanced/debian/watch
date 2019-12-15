@@ -1,9 +1,4 @@
-version=3
+version=4
 
-#unstable: follow stable and rc releases
-opts="uversionmangle=s/rc/~rc/" \
-  https://sf.net/qbittorrent/qbittorrent-([\d\.]*(?:rc\d)?)\.tar\.xz
-
-#experimental: follow stable, rc and beta releases
-#opts="uversionmangle=s/(rc|beta)/~$1/" \
-#  https://sf.net/qbittorrent/qbittorrent-([\d\.]*(?:(?:rc|beta)\d)?)\.tar\.xz
+opts=filenamemangle=s/.+\/release-(.+)\.tar\.gz/qbittorrent-enhanced_$1\.orig\.tar\.gz/ \
+  https://github.com/c0re100/qBittorrent-Enhanced-Edition/tags .*/release-(.+)\.tar\.gz
