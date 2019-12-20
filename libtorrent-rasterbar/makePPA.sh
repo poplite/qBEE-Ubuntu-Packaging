@@ -20,7 +20,7 @@
 
 set -e
 
-VERSION="1.1"
+VERSION="1.2"
 
 PROGRAM_NAME="libtorrent-rasterbar"
 SCRIPT_NAME=$0
@@ -128,7 +128,7 @@ dch --package "${PROGRAM_NAME}" \
     --force-distribution \
     --force-bad-version \
     --newversion "${DEB_VERSION}-${SUB_VERSION}ppa1~%DISTRO%1" \
-    "New upstream version ${DEB_VERSION}" 2</dev/null
+    "New upstream version ${DEB_VERSION}" 2>/dev/null
 head -n 5 debian/changelog
 
 # 7. Create and sign changes files

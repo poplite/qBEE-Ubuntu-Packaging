@@ -1,87 +1,43 @@
-Description: Fix html documentation for offline browsing
- The patch also includes the makefile and template.txt needed to rebuild
- html docs from rst files.
+From: Cristian Greco <cristian@regolo.cc>
+Date: Sun, 2 Dec 2018 09:38:28 +0000
+Subject: Fix html documentation for offline browsing
+
+The patch also includes the makefile and template.txt needed to rebuild
+html docs from rst files.
 Forwarded: not-needed
 Origin: vendor
-Author: Cristian Greco <cristian@regolo.cc>
+---
+ docs/css/base.css                   | 136 ++++++++++++++++++++
+ docs/css/rst.css                    | 245 ++++++++++++++++++++++++++++++++++++
+ docs/hacking.html                   |  11 --
+ docs/index.rst                      |  10 +-
+ docs/makefile                       |  34 +++++
+ docs/manual-ref.html                |  60 ++-------
+ docs/reference-Alerts.html          |  11 --
+ docs/reference-Bdecoding.html       |  11 --
+ docs/reference-Bencoding.html       |  11 --
+ docs/reference-Core.html            |  11 --
+ docs/reference-Create_Torrents.html |  11 --
+ docs/reference-Custom_Storage.html  |  11 --
+ docs/reference-Error_Codes.html     |  11 --
+ docs/reference-Filter.html          |  11 --
+ docs/reference-Plugins.html         |  11 --
+ docs/reference-Settings.html        |  11 --
+ docs/reference-Storage.html         |  11 --
+ docs/reference-Utility.html         |  11 --
+ docs/reference-ed25519.html         |  11 --
+ docs/reference.html                 |  11 --
+ docs/single-page-ref.html           |  11 --
+ docs/template.txt                   |  29 +++++
+ docs/tutorial.html                  |  11 --
+ 23 files changed, 456 insertions(+), 245 deletions(-)
+ create mode 100644 docs/css/base.css
+ create mode 100644 docs/css/rst.css
+ create mode 100644 docs/makefile
+ create mode 100644 docs/template.txt
 
-Index: libtorrent-rasterbar/docs/template.txt
-===================================================================
---- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ libtorrent-rasterbar/docs/template.txt	2016-06-12 14:16:52.760814743 -0400
-@@ -0,0 +1,29 @@
-+%(head_prefix)s
-+%(head)s
-+<link rel="stylesheet" type="text/css" href="css/base.css" />
-+<link rel="stylesheet" type="text/css" href="css/rst.css" />
-+%(stylesheet)s
-+<style type="text/css">
-+/* Hides from IE-mac \*/
-+* html pre { height: 1%%; }
-+/* End hide from IE-mac */
-+</style>
-+%(body_prefix)s
-+    <div id="container">
-+    <div id="headerNav">
-+    <ul>
-+    <li class="first"><a href="index.html">Home</a></li>
-+    <li><a href="http://www.rasterbar.com/products.html">Products</a></li>
-+    <li><a href="http://www.rasterbar.com/contact.html">Contact</a></li>
-+    </ul>
-+    </div>
-+    <div id="main">
-+%(body_pre_docinfo)s
-+%(docinfo)s
-+%(body)s
-+    </div>
-+    <div id="footer">
-+    <span>Copyright &copy; 2005 Rasterbar Software.</span>
-+    </div>
-+    </div>
-+%(body_suffix)s
-Index: libtorrent-rasterbar/docs/makefile
-===================================================================
---- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ libtorrent-rasterbar/docs/makefile	2016-06-12 14:16:52.760814743 -0400
-@@ -0,0 +1,34 @@
-+#!/usr/bin/make -f
-+# Upstream Author: Arvid Norberg - Modified by: Cristian Greco
-+# This file has been downloaded from upstream svn and simplified in order to
-+# generate an html documentation suitable for offline browsing.
-+# This makefile assumes that you have python-docutils installed.
-+
-+TARGETS = \
-+    index \
-+	udp_tracker_protocol \
-+	dht_rss \
-+	dht_store \
-+	client_test \
-+	building \
-+	features \
-+	troubleshooting \
-+	contributing\
-+	examples \
-+	extension_protocol \
-+	dht_extensions \
-+	dht_sec \
-+	python_binding \
-+	projects \
-+	utp \
-+	tuning \
-+	streaming \
-+	manual-ref
-+
-+all: $(TARGETS:=_rst2html)
-+
-+%_rst2html: %.rst
-+	rst2html --template=template.txt --stylesheet-path=style.css --link-stylesheet --no-toc-backlinks $? > $*.html
-+
-+clean:
-+	@rm -f $(TARGETS:=.html)
-Index: libtorrent-rasterbar/docs/css/base.css
-===================================================================
---- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ libtorrent-rasterbar/docs/css/base.css	2016-06-12 14:16:52.764814816 -0400
+--- /dev/null
++++ b/docs/css/base.css
 @@ -0,0 +1,136 @@
 +/* Page template */
 +
@@ -219,10 +175,8 @@ Index: libtorrent-rasterbar/docs/css/base.css
 +
 +p, ul, ol, img {margin-bottom: 1em;}
 +
-Index: libtorrent-rasterbar/docs/css/rst.css
-===================================================================
---- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ libtorrent-rasterbar/docs/css/rst.css	2016-06-12 14:16:52.764814816 -0400
+--- /dev/null
++++ b/docs/css/rst.css
 @@ -0,0 +1,245 @@
 +.document {
 +    margin-left: 10px;
@@ -469,11 +423,29 @@ Index: libtorrent-rasterbar/docs/css/rst.css
 +* html #table-of-contents ul ul { height: 1%; }
 +/* End hide from IE-mac */
 +
-Index: libtorrent-rasterbar/docs/index.rst
-===================================================================
---- libtorrent-rasterbar.orig/docs/index.rst	2016-06-12 14:16:52.768814889 -0400
-+++ libtorrent-rasterbar/docs/index.rst	2016-06-12 14:19:24.195568276 -0400
-@@ -92,7 +92,7 @@
+--- a/docs/hacking.html
++++ b/docs/hacking.html
+@@ -7,17 +7,6 @@
+ <title>libtorrent hacking</title>
+ <meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
+ <meta name=viewport content="width=device-width, initial-scale=1">
+-<script type="text/javascript">
+-/* <![CDATA[ */
+-    (function() {
+-        var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
+-        s.type = 'text/javascript';
+-        s.async = true;
+-        s.src = 'https://api.flattr.com/js/0.6/load.js?mode=auto';
+-        t.parentNode.insertBefore(s, t);
+-    })();
+-/* ]]> */
+-</script>
+ <link rel="stylesheet" href="style.css" type="text/css" />
+ <link rel="stylesheet" type="text/css" href="rst.css" />
+ <style type="text/css">
+--- a/docs/index.rst
++++ b/docs/index.rst
+@@ -95,7 +95,7 @@
  .. _go: https://github.com/steeve/libtorrent-go
  .. _node: https://github.com/fanatid/node-libtorrent
  
@@ -482,7 +454,7 @@ Index: libtorrent-rasterbar/docs/index.rst
  
  libtorrent is a feature complete C++ bittorrent implementation focusing
  on efficiency and scalability. It runs on embedded devices as well as
-@@ -129,13 +129,6 @@
+@@ -132,13 +132,6 @@
  	<a href="bitcoin:373ZDeQgQSQNuxdinNAPnQ63CRNn4iEXzg">bitcoin:373ZDeQgQSQNuxdinNAPnQ63CRNn4iEXzg</a>
  	</span>
  	
@@ -496,10 +468,140 @@ Index: libtorrent-rasterbar/docs/index.rst
  	<span style="display:inline-block">
  	<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
  	<input type="hidden" name="cmd" value="_donations">
-Index: libtorrent-rasterbar/docs/reference-Alerts.html
-===================================================================
---- libtorrent-rasterbar.orig/docs/reference-Alerts.html	2016-06-12 14:16:52.768814889 -0400
-+++ libtorrent-rasterbar/docs/reference-Alerts.html	2016-06-12 14:16:52.764814816 -0400
+@@ -148,7 +141,6 @@
+ 	<input type="hidden" name="currency_code" value="USD">
+ 	<input type="hidden" name="bn" value="PP-DonationsBF:btn_donate_LG.gif:NonHosted">
+ 	<input type="image" src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/pp-acceptance-medium.png" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+-	<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+ 	</form>
+ 	</span>
+ 	</span>
+--- /dev/null
++++ b/docs/makefile
+@@ -0,0 +1,34 @@
++#!/usr/bin/make -f
++# Upstream Author: Arvid Norberg - Modified by: Cristian Greco
++# This file has been downloaded from upstream svn and simplified in order to
++# generate an html documentation suitable for offline browsing.
++# This makefile assumes that you have python-docutils installed.
++
++TARGETS = \
++    index \
++	udp_tracker_protocol \
++	dht_rss \
++	dht_store \
++	client_test \
++	building \
++	features \
++	troubleshooting \
++	contributing\
++	examples \
++	extension_protocol \
++	dht_extensions \
++	dht_sec \
++	python_binding \
++	projects \
++	utp \
++	tuning \
++	streaming \
++	manual-ref
++
++all: $(TARGETS:=_rst2html)
++
++%_rst2html: %.rst
++	rst2html --template=template.txt --stylesheet-path=style.css --link-stylesheet --no-toc-backlinks $? > $*.html
++
++clean:
++	@rm -f $(TARGETS:=.html)
+--- a/docs/manual-ref.html
++++ b/docs/manual-ref.html
+@@ -6,20 +6,9 @@
+ <meta name="generator" content="Docutils 0.15.2: http://docutils.sourceforge.net/" />
+ <title>libtorrent API Documentation</title>
+ <meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
+-<meta name=viewport content="width=device-width, initial-scale=1">
+-<script type="text/javascript">
+-/* <![CDATA[ */
+-    (function() {
+-        var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
+-        s.type = 'text/javascript';
+-        s.async = true;
+-        s.src = 'https://api.flattr.com/js/0.6/load.js?mode=auto';
+-        t.parentNode.insertBefore(s, t);
+-    })();
+-/* ]]> */
+-</script>
++<link rel="stylesheet" type="text/css" href="css/base.css" />
++<link rel="stylesheet" type="text/css" href="css/rst.css" />
+ <link rel="stylesheet" href="style.css" type="text/css" />
+-<link rel="stylesheet" type="text/css" href="rst.css" />
+ <style type="text/css">
+ /* Hides from IE-mac \*/
+ * html pre { height: 1%; }
+@@ -29,10 +18,13 @@
+ <body>
+ <div class="document" id="libtorrent-api-documentation">
+     <div id="container">
+-    <a href="index.html"><table id="header">
+-    <tr><td id="orange"></td>
+-    <td id="logo">libtorrent</td></tr>
+-    </table></a>
++    <div id="headerNav">
++    <ul>
++    <li class="first"><a href="index.html">Home</a></li>
++    <li><a href="http://www.rasterbar.com/products.html">Products</a></li>
++    <li><a href="http://www.rasterbar.com/contact.html">Contact</a></li>
++    </ul>
++    </div>
+     <div id="main">
+ <h1 class="title">libtorrent API Documentation</h1>
+ <table class="docinfo" frame="void" rules="none">
+@@ -2932,41 +2924,11 @@
+ 16384, 32768, 65536, 131072, 262144, 524288, 1048576
+ bytes</p>
+ </div>
+-
+-    </div>
+     </div>
+-    <div id="gradient"></div>
+     <div id="footer">
+-    <table>
+-    <tr>
+-      <td><a href="index.html">home</a></td>
+-      <td><a href="https://blog.libtorrent.org">blog</a></td>
+-      <td><a href="utp.html">uTP</a></td>
+-    </tr>
+-    <tr>
+-      <td><a href="https://sourceforge.net/projects/libtorrent/files/libtorrent/">download</a></td>
+-      <td><a href="reference.html">documentation</a></td>
+-      <td><a href="dht_store.html">DHT put extension</a></td>
+-    </tr>
+-    <tr>
+-      <td><a href="https://sourceforge.net/projects/libtorrent/files/py-libtorrent/">python bindings</a></td>
+-      <td><a href="features.html">features</a></td>
+-      <td><a href="dht_sec.html">DHT security extension</a></td>
+-    </tr>
+-    <tr>
+-      <td><a href="https://sourceforge.net/p/libtorrent/mailman/libtorrent-discuss/">mailing list archive</a></td>
+-      <td><a href="contributing.html">contributing</a></td>
+-      <td><a href="streaming.html">streaming</a></td>
+-    </tr>
+-    <tr>
+-      <td><a href="https://github.com/arvidn/libtorrent/issues">report a bug</a></td>
+-      <td><a href="building.html">building</a></td>
+-      <td><a href="bittorrent.pdf">bittorrent slides</a></td>
+-    </tr>
+-    </table>
++    <span>Copyright &copy; 2005 Rasterbar Software.</span>
++    </div>
+     </div>
+-    <div id="filler"></div>
+-
+ </div>
+ </body>
+ </html>
+--- a/docs/reference-Alerts.html
++++ b/docs/reference-Alerts.html
 @@ -7,17 +7,6 @@
  <title>reference-Alerts.rst</title>
  <meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
@@ -518,10 +620,28 @@ Index: libtorrent-rasterbar/docs/reference-Alerts.html
  <link rel="stylesheet" href="style.css" type="text/css" />
  <link rel="stylesheet" type="text/css" href="rst.css" />
  <style type="text/css">
-Index: libtorrent-rasterbar/docs/reference-Bencoding.html
-===================================================================
---- libtorrent-rasterbar.orig/docs/reference-Bencoding.html	2016-06-12 14:16:52.768814889 -0400
-+++ libtorrent-rasterbar/docs/reference-Bencoding.html	2016-06-12 14:16:52.764814816 -0400
+--- a/docs/reference-Bdecoding.html
++++ b/docs/reference-Bdecoding.html
+@@ -7,17 +7,6 @@
+ <title>reference-Bdecoding.rst</title>
+ <meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
+ <meta name=viewport content="width=device-width, initial-scale=1">
+-<script type="text/javascript">
+-/* <![CDATA[ */
+-    (function() {
+-        var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
+-        s.type = 'text/javascript';
+-        s.async = true;
+-        s.src = 'https://api.flattr.com/js/0.6/load.js?mode=auto';
+-        t.parentNode.insertBefore(s, t);
+-    })();
+-/* ]]> */
+-</script>
+ <link rel="stylesheet" href="style.css" type="text/css" />
+ <link rel="stylesheet" type="text/css" href="rst.css" />
+ <style type="text/css">
+--- a/docs/reference-Bencoding.html
++++ b/docs/reference-Bencoding.html
 @@ -7,17 +7,6 @@
  <title>reference-Bencoding.rst</title>
  <meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
@@ -540,10 +660,8 @@ Index: libtorrent-rasterbar/docs/reference-Bencoding.html
  <link rel="stylesheet" href="style.css" type="text/css" />
  <link rel="stylesheet" type="text/css" href="rst.css" />
  <style type="text/css">
-Index: libtorrent-rasterbar/docs/reference-Core.html
-===================================================================
---- libtorrent-rasterbar.orig/docs/reference-Core.html	2016-06-12 14:16:52.768814889 -0400
-+++ libtorrent-rasterbar/docs/reference-Core.html	2016-06-12 14:16:52.764814816 -0400
+--- a/docs/reference-Core.html
++++ b/docs/reference-Core.html
 @@ -7,17 +7,6 @@
  <title>reference-Core.rst</title>
  <meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
@@ -562,10 +680,8 @@ Index: libtorrent-rasterbar/docs/reference-Core.html
  <link rel="stylesheet" href="style.css" type="text/css" />
  <link rel="stylesheet" type="text/css" href="rst.css" />
  <style type="text/css">
-Index: libtorrent-rasterbar/docs/reference-Create_Torrents.html
-===================================================================
---- libtorrent-rasterbar.orig/docs/reference-Create_Torrents.html	2016-06-12 14:16:52.768814889 -0400
-+++ libtorrent-rasterbar/docs/reference-Create_Torrents.html	2016-06-12 14:16:52.764814816 -0400
+--- a/docs/reference-Create_Torrents.html
++++ b/docs/reference-Create_Torrents.html
 @@ -7,17 +7,6 @@
  <title>reference-Create_Torrents.rst</title>
  <meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
@@ -584,10 +700,8 @@ Index: libtorrent-rasterbar/docs/reference-Create_Torrents.html
  <link rel="stylesheet" href="style.css" type="text/css" />
  <link rel="stylesheet" type="text/css" href="rst.css" />
  <style type="text/css">
-Index: libtorrent-rasterbar/docs/reference-Custom_Storage.html
-===================================================================
---- libtorrent-rasterbar.orig/docs/reference-Custom_Storage.html	2016-06-12 14:16:52.768814889 -0400
-+++ libtorrent-rasterbar/docs/reference-Custom_Storage.html	2016-06-12 14:16:52.764814816 -0400
+--- a/docs/reference-Custom_Storage.html
++++ b/docs/reference-Custom_Storage.html
 @@ -7,17 +7,6 @@
  <title>reference-Custom_Storage.rst</title>
  <meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
@@ -606,10 +720,8 @@ Index: libtorrent-rasterbar/docs/reference-Custom_Storage.html
  <link rel="stylesheet" href="style.css" type="text/css" />
  <link rel="stylesheet" type="text/css" href="rst.css" />
  <style type="text/css">
-Index: libtorrent-rasterbar/docs/reference-Error_Codes.html
-===================================================================
---- libtorrent-rasterbar.orig/docs/reference-Error_Codes.html	2016-06-12 14:16:52.768814889 -0400
-+++ libtorrent-rasterbar/docs/reference-Error_Codes.html	2016-06-12 14:16:52.764814816 -0400
+--- a/docs/reference-Error_Codes.html
++++ b/docs/reference-Error_Codes.html
 @@ -7,17 +7,6 @@
  <title>reference-Error_Codes.rst</title>
  <meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
@@ -628,120 +740,8 @@ Index: libtorrent-rasterbar/docs/reference-Error_Codes.html
  <link rel="stylesheet" href="style.css" type="text/css" />
  <link rel="stylesheet" type="text/css" href="rst.css" />
  <style type="text/css">
-Index: libtorrent-rasterbar/docs/reference-Plugins.html
-===================================================================
---- libtorrent-rasterbar.orig/docs/reference-Plugins.html	2016-06-12 14:16:52.768814889 -0400
-+++ libtorrent-rasterbar/docs/reference-Plugins.html	2016-06-12 14:16:52.764814816 -0400
-@@ -7,17 +7,6 @@
- <title>reference-Plugins.rst</title>
- <meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
- <meta name=viewport content="width=device-width, initial-scale=1">
--<script type="text/javascript">
--/* <![CDATA[ */
--    (function() {
--        var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
--        s.type = 'text/javascript';
--        s.async = true;
--        s.src = 'https://api.flattr.com/js/0.6/load.js?mode=auto';
--        t.parentNode.insertBefore(s, t);
--    })();
--/* ]]> */
--</script>
- <link rel="stylesheet" href="style.css" type="text/css" />
- <link rel="stylesheet" type="text/css" href="rst.css" />
- <style type="text/css">
-Index: libtorrent-rasterbar/docs/reference-Settings.html
-===================================================================
---- libtorrent-rasterbar.orig/docs/reference-Settings.html	2016-06-12 14:16:52.768814889 -0400
-+++ libtorrent-rasterbar/docs/reference-Settings.html	2016-06-12 14:16:52.768814889 -0400
-@@ -7,17 +7,6 @@
- <title>reference-Settings.rst</title>
- <meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
- <meta name=viewport content="width=device-width, initial-scale=1">
--<script type="text/javascript">
--/* <![CDATA[ */
--    (function() {
--        var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
--        s.type = 'text/javascript';
--        s.async = true;
--        s.src = 'https://api.flattr.com/js/0.6/load.js?mode=auto';
--        t.parentNode.insertBefore(s, t);
--    })();
--/* ]]> */
--</script>
- <link rel="stylesheet" href="style.css" type="text/css" />
- <link rel="stylesheet" type="text/css" href="rst.css" />
- <style type="text/css">
-Index: libtorrent-rasterbar/docs/reference-Storage.html
-===================================================================
---- libtorrent-rasterbar.orig/docs/reference-Storage.html	2016-06-12 14:16:52.768814889 -0400
-+++ libtorrent-rasterbar/docs/reference-Storage.html	2016-06-12 14:16:52.768814889 -0400
-@@ -7,17 +7,6 @@
- <title>reference-Storage.rst</title>
- <meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
- <meta name=viewport content="width=device-width, initial-scale=1">
--<script type="text/javascript">
--/* <![CDATA[ */
--    (function() {
--        var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
--        s.type = 'text/javascript';
--        s.async = true;
--        s.src = 'https://api.flattr.com/js/0.6/load.js?mode=auto';
--        t.parentNode.insertBefore(s, t);
--    })();
--/* ]]> */
--</script>
- <link rel="stylesheet" href="style.css" type="text/css" />
- <link rel="stylesheet" type="text/css" href="rst.css" />
- <style type="text/css">
-Index: libtorrent-rasterbar/docs/reference-Utility.html
-===================================================================
---- libtorrent-rasterbar.orig/docs/reference-Utility.html	2016-06-12 14:16:52.768814889 -0400
-+++ libtorrent-rasterbar/docs/reference-Utility.html	2016-06-12 14:16:52.768814889 -0400
-@@ -7,17 +7,6 @@
- <title>reference-Utility.rst</title>
- <meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
- <meta name=viewport content="width=device-width, initial-scale=1">
--<script type="text/javascript">
--/* <![CDATA[ */
--    (function() {
--        var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
--        s.type = 'text/javascript';
--        s.async = true;
--        s.src = 'https://api.flattr.com/js/0.6/load.js?mode=auto';
--        t.parentNode.insertBefore(s, t);
--    })();
--/* ]]> */
--</script>
- <link rel="stylesheet" href="style.css" type="text/css" />
- <link rel="stylesheet" type="text/css" href="rst.css" />
- <style type="text/css">
-Index: libtorrent-rasterbar/docs/reference.html
-===================================================================
---- libtorrent-rasterbar.orig/docs/reference.html	2016-06-12 14:16:52.768814889 -0400
-+++ libtorrent-rasterbar/docs/reference.html	2016-06-12 14:16:52.768814889 -0400
-@@ -6,17 +6,6 @@
- <meta name="generator" content="Docutils 0.14: http://docutils.sourceforge.net/" />
- <title>reference documentation</title>
- <meta name=viewport content="width=device-width, initial-scale=1">
--<script type="text/javascript">
--/* <![CDATA[ */
--    (function() {
--        var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
--        s.type = 'text/javascript';
--        s.async = true;
--        s.src = 'https://api.flattr.com/js/0.6/load.js?mode=auto';
--        t.parentNode.insertBefore(s, t);
--    })();
--/* ]]> */
--</script>
- <link rel="stylesheet" href="style.css" type="text/css" />
- <link rel="stylesheet" type="text/css" href="rst.css" />
- <style type="text/css">
-Index: libtorrent-rasterbar/docs/reference-Filter.html
-===================================================================
---- libtorrent-rasterbar.orig/docs/reference-Filter.html	2016-06-12 14:16:52.768814889 -0400
-+++ libtorrent-rasterbar/docs/reference-Filter.html	2016-06-12 14:16:52.768814889 -0400
+--- a/docs/reference-Filter.html
++++ b/docs/reference-Filter.html
 @@ -7,17 +7,6 @@
  <title>reference-Filter.rst</title>
  <meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
@@ -760,12 +760,182 @@ Index: libtorrent-rasterbar/docs/reference-Filter.html
  <link rel="stylesheet" href="style.css" type="text/css" />
  <link rel="stylesheet" type="text/css" href="rst.css" />
  <style type="text/css">
-Index: libtorrent-rasterbar/docs/hacking.html
-===================================================================
---- libtorrent-rasterbar.orig/docs/hacking.html	2016-06-12 14:16:52.768814889 -0400
-+++ libtorrent-rasterbar/docs/hacking.html	2016-06-12 14:16:52.768814889 -0400
+--- a/docs/reference-Plugins.html
++++ b/docs/reference-Plugins.html
 @@ -7,17 +7,6 @@
- <title>libtorrent hacking</title>
+ <title>reference-Plugins.rst</title>
+ <meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
+ <meta name=viewport content="width=device-width, initial-scale=1">
+-<script type="text/javascript">
+-/* <![CDATA[ */
+-    (function() {
+-        var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
+-        s.type = 'text/javascript';
+-        s.async = true;
+-        s.src = 'https://api.flattr.com/js/0.6/load.js?mode=auto';
+-        t.parentNode.insertBefore(s, t);
+-    })();
+-/* ]]> */
+-</script>
+ <link rel="stylesheet" href="style.css" type="text/css" />
+ <link rel="stylesheet" type="text/css" href="rst.css" />
+ <style type="text/css">
+--- a/docs/reference-Settings.html
++++ b/docs/reference-Settings.html
+@@ -7,17 +7,6 @@
+ <title>reference-Settings.rst</title>
+ <meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
+ <meta name=viewport content="width=device-width, initial-scale=1">
+-<script type="text/javascript">
+-/* <![CDATA[ */
+-    (function() {
+-        var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
+-        s.type = 'text/javascript';
+-        s.async = true;
+-        s.src = 'https://api.flattr.com/js/0.6/load.js?mode=auto';
+-        t.parentNode.insertBefore(s, t);
+-    })();
+-/* ]]> */
+-</script>
+ <link rel="stylesheet" href="style.css" type="text/css" />
+ <link rel="stylesheet" type="text/css" href="rst.css" />
+ <style type="text/css">
+--- a/docs/reference-Storage.html
++++ b/docs/reference-Storage.html
+@@ -7,17 +7,6 @@
+ <title>reference-Storage.rst</title>
+ <meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
+ <meta name=viewport content="width=device-width, initial-scale=1">
+-<script type="text/javascript">
+-/* <![CDATA[ */
+-    (function() {
+-        var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
+-        s.type = 'text/javascript';
+-        s.async = true;
+-        s.src = 'https://api.flattr.com/js/0.6/load.js?mode=auto';
+-        t.parentNode.insertBefore(s, t);
+-    })();
+-/* ]]> */
+-</script>
+ <link rel="stylesheet" href="style.css" type="text/css" />
+ <link rel="stylesheet" type="text/css" href="rst.css" />
+ <style type="text/css">
+--- a/docs/reference-Utility.html
++++ b/docs/reference-Utility.html
+@@ -7,17 +7,6 @@
+ <title>reference-Utility.rst</title>
+ <meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
+ <meta name=viewport content="width=device-width, initial-scale=1">
+-<script type="text/javascript">
+-/* <![CDATA[ */
+-    (function() {
+-        var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
+-        s.type = 'text/javascript';
+-        s.async = true;
+-        s.src = 'https://api.flattr.com/js/0.6/load.js?mode=auto';
+-        t.parentNode.insertBefore(s, t);
+-    })();
+-/* ]]> */
+-</script>
+ <link rel="stylesheet" href="style.css" type="text/css" />
+ <link rel="stylesheet" type="text/css" href="rst.css" />
+ <style type="text/css">
+--- a/docs/reference-ed25519.html
++++ b/docs/reference-ed25519.html
+@@ -7,17 +7,6 @@
+ <title>reference-ed25519.rst</title>
+ <meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
+ <meta name=viewport content="width=device-width, initial-scale=1">
+-<script type="text/javascript">
+-/* <![CDATA[ */
+-    (function() {
+-        var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
+-        s.type = 'text/javascript';
+-        s.async = true;
+-        s.src = 'https://api.flattr.com/js/0.6/load.js?mode=auto';
+-        t.parentNode.insertBefore(s, t);
+-    })();
+-/* ]]> */
+-</script>
+ <link rel="stylesheet" href="style.css" type="text/css" />
+ <link rel="stylesheet" type="text/css" href="rst.css" />
+ <style type="text/css">
+--- a/docs/reference.html
++++ b/docs/reference.html
+@@ -6,17 +6,6 @@
+ <meta name="generator" content="Docutils 0.15.2: http://docutils.sourceforge.net/" />
+ <title>reference documentation</title>
+ <meta name=viewport content="width=device-width, initial-scale=1">
+-<script type="text/javascript">
+-/* <![CDATA[ */
+-    (function() {
+-        var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
+-        s.type = 'text/javascript';
+-        s.async = true;
+-        s.src = 'https://api.flattr.com/js/0.6/load.js?mode=auto';
+-        t.parentNode.insertBefore(s, t);
+-    })();
+-/* ]]> */
+-</script>
+ <link rel="stylesheet" href="style.css" type="text/css" />
+ <link rel="stylesheet" type="text/css" href="rst.css" />
+ <style type="text/css">
+--- a/docs/single-page-ref.html
++++ b/docs/single-page-ref.html
+@@ -6,17 +6,6 @@
+ <meta name="generator" content="Docutils 0.15.2: http://docutils.sourceforge.net/" />
+ <title>single-page-ref.rst</title>
+ <meta name=viewport content="width=device-width, initial-scale=1">
+-<script type="text/javascript">
+-/* <![CDATA[ */
+-    (function() {
+-        var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
+-        s.type = 'text/javascript';
+-        s.async = true;
+-        s.src = 'https://api.flattr.com/js/0.6/load.js?mode=auto';
+-        t.parentNode.insertBefore(s, t);
+-    })();
+-/* ]]> */
+-</script>
+ <link rel="stylesheet" href="style.css" type="text/css" />
+ <link rel="stylesheet" type="text/css" href="rst.css" />
+ <style type="text/css">
+--- /dev/null
++++ b/docs/template.txt
+@@ -0,0 +1,29 @@
++%(head_prefix)s
++%(head)s
++<link rel="stylesheet" type="text/css" href="css/base.css" />
++<link rel="stylesheet" type="text/css" href="css/rst.css" />
++%(stylesheet)s
++<style type="text/css">
++/* Hides from IE-mac \*/
++* html pre { height: 1%%; }
++/* End hide from IE-mac */
++</style>
++%(body_prefix)s
++    <div id="container">
++    <div id="headerNav">
++    <ul>
++    <li class="first"><a href="index.html">Home</a></li>
++    <li><a href="http://www.rasterbar.com/products.html">Products</a></li>
++    <li><a href="http://www.rasterbar.com/contact.html">Contact</a></li>
++    </ul>
++    </div>
++    <div id="main">
++%(body_pre_docinfo)s
++%(docinfo)s
++%(body)s
++    </div>
++    <div id="footer">
++    <span>Copyright &copy; 2005 Rasterbar Software.</span>
++    </div>
++    </div>
++%(body_suffix)s
+--- a/docs/tutorial.html
++++ b/docs/tutorial.html
+@@ -7,17 +7,6 @@
+ <title>libtorrent manual</title>
  <meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
  <meta name=viewport content="width=device-width, initial-scale=1">
 -<script type="text/javascript">
