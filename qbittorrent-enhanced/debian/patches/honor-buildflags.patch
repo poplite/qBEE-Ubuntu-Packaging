@@ -7,7 +7,7 @@ Index: qbittorrent/unixconf.pri
 ===================================================================
 --- qbittorrent.orig/unixconf.pri	2018-09-23 18:07:17.491619461 -0400
 +++ qbittorrent/unixconf.pri	2018-09-23 18:08:57.342001409 -0400
-@@ -12,8 +12,9 @@
+@@ -10,8 +10,9 @@
  # COMPILATION SPECIFIC
  !nogui:dbus: QT += dbus
  

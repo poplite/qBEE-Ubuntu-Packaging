@@ -11,8 +11,7 @@ sudo apt-get install qbittorrent-enhanced qbittorrent-enhanced-nox
 
 Now available on:
 
-* **Ubuntu 16.04 (Xenial)**
-* **Ubuntu 18.04 (Bionic)**
-* **Ubuntu 19.04 (Disco)**
 * **Ubuntu 19.10 (Eoan)**
-
+* **Ubuntu 19.04 (Disco)**
+* **Ubuntu 18.04 (Bionic)**
+* **Ubuntu 16.04 (Xenial)** (v4.1.x only)

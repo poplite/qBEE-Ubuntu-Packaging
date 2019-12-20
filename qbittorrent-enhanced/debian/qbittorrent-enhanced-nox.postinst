@@ -6,9 +6,9 @@ QBTUSER="qbtuser"
 
 uid=`getent passwd $QBTUSER | cut -d ":" -f 3`
 
-# Create a user for qBittorent daemon service
+# Create a user for qBittorent systemd service
 if [ ! "$uid" ]; then
-	echo "Creating user '$QBTUSER' for daemon service..."
+	echo "Creating user '$QBTUSER' for systemd service..."
 	adduser --quiet \
 		--system \
 		--disabled-password \
