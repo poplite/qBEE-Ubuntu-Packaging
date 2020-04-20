@@ -457,14 +457,14 @@ Origin: vendor
 @@ -132,13 +132,6 @@
  	<a href="bitcoin:373ZDeQgQSQNuxdinNAPnQ63CRNn4iEXzg">bitcoin:373ZDeQgQSQNuxdinNAPnQ63CRNn4iEXzg</a>
  	</span>
- 	
+ 
 -	<span style="display:block;text-align:center;margin-top:1em">
 -	<span style="display:inline-block">
 -	<a class="FlattrButton" style="display:none;" href="https://libtorrent.org"></a>
 -	<noscript><a href="https://flattr.com/thing/95662/libtorrent" target="_blank">
 -	<img src="https://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" /></a></noscript>
 -	</span>
--	
+-
  	<span style="display:inline-block">
  	<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
  	<input type="hidden" name="cmd" value="_donations">
@@ -516,7 +516,7 @@ Origin: vendor
 --- a/docs/manual-ref.html
 +++ b/docs/manual-ref.html
 @@ -6,20 +6,9 @@
- <meta name="generator" content="Docutils 0.15.2: http://docutils.sourceforge.net/" />
+ <meta name="generator" content="Docutils 0.16: http://docutils.sourceforge.net/" />
  <title>libtorrent API Documentation</title>
  <meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
 -<meta name=viewport content="width=device-width, initial-scale=1">
@@ -556,9 +556,9 @@ Origin: vendor
      <div id="main">
  <h1 class="title">libtorrent API Documentation</h1>
  <table class="docinfo" frame="void" rules="none">
-@@ -2932,41 +2924,11 @@
- 16384, 32768, 65536, 131072, 262144, 524288, 1048576
- bytes</p>
+@@ -3113,41 +3105,11 @@
+ support.</dd>
+ </dl>
  </div>
 -
 -    </div>
@@ -863,7 +863,7 @@ Origin: vendor
 --- a/docs/reference.html
 +++ b/docs/reference.html
 @@ -6,17 +6,6 @@
- <meta name="generator" content="Docutils 0.15.2: http://docutils.sourceforge.net/" />
+ <meta name="generator" content="Docutils 0.16: http://docutils.sourceforge.net/" />
  <title>reference documentation</title>
  <meta name=viewport content="width=device-width, initial-scale=1">
 -<script type="text/javascript">
@@ -883,7 +883,7 @@ Origin: vendor
 --- a/docs/single-page-ref.html
 +++ b/docs/single-page-ref.html
 @@ -6,17 +6,6 @@
- <meta name="generator" content="Docutils 0.15.2: http://docutils.sourceforge.net/" />
+ <meta name="generator" content="Docutils 0.16: http://docutils.sourceforge.net/" />
  <title>single-page-ref.rst</title>
  <meta name=viewport content="width=device-width, initial-scale=1">
 -<script type="text/javascript">
