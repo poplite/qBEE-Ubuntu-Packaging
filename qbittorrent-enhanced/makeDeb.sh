@@ -43,6 +43,10 @@ else
     SUDO=""
 fi
 
+# Options for dch
+DCH_OPT="--package ${PROGRAM_NAME} --distribution ${DISTRO} --force-distribution --force-bad-version"
+
+# Options for debuild
 DEBUILD_OPT="-uc -us -rfakeroot"
 
 BUILD_DEPENDS="debhelper dh-systemd dpkg-dev build-essential devscripts fakeroot quilt curl tar"
@@ -111,10 +115,7 @@ quilt push -a
 
 # 7. Add new release to changelog
 echo_clr "Add new release to changelog"
-dch --package "${PROGRAM_NAME}" \
-    --distribution "${DISTRO}" \
-    --force-distribution \
-    --force-bad-version \
+dch ${DCH_OPT} \
     --newversion "${DEB_VERSION}-${SUB_VERSION}~${DISTRO}1" \
     "New upstream version ${DEB_VERSION}" 2>/dev/null
 head -n 5 debian/changelog

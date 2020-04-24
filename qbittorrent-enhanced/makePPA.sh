@@ -20,7 +20,7 @@
 
 set -e
 
-VERSION="1.1"
+VERSION="1.2"
 
 PROGRAM_NAME="qbittorrent-enhanced"
 SCRIPT_NAME=$0
@@ -40,6 +40,13 @@ export DEBEMAIL="poplite.xyz@gmail.com"
 PPA_URL=${PPA_URL:-"ppa:poplite/qbittorrent-enhanced"}
 PPA_KEY="F1B89752"
 
+# distribution name placeholder, used by sed
+DIST_PLACEHOLDER="DISTRO"
+
+# Options for dch
+DCH_OPT="--package ${PROGRAM_NAME} --distribution ${DIST_PLACEHOLDER} --force-distribution --force-bad-version"
+
+# Options for debuild
 DEBUILD_OPT="-k${PPA_KEY}"
 # Prefer using gpg2 for package signing
 if hash gpg2 2>/dev/null;
@@ -115,11 +122,8 @@ quilt push -a
 
 # 6. Add new release to changelog
 echo_clr "Add new release to changelog"
-dch --package qbittorrent-enhanced \
-    --distribution %DISTRO% \
-    --force-distribution \
-    --force-bad-version \
-    --newversion "${DEB_VERSION}-${SUB_VERSION}ppa1~%DISTRO%1" \
+dch ${DCH_OPT} \
+    --newversion "${DEB_VERSION}-${SUB_VERSION}ppa1~${DIST_PLACEHOLDER}1" \
     "New upstream version ${DEB_VERSION}" 2>/dev/null
 head -n 5 debian/changelog
 
@@ -129,7 +133,7 @@ cp debian/changelog ../changelog.template
 for DISTRO in ${DISTROS}; 
 do
     echo_clr "Signing ${DISTRO}..."
-    sed "s/%DISTRO%/${DISTRO}/g" ../changelog.template > debian/changelog
+    sed "s/${DIST_PLACEHOLDER}/${DISTRO}/g" ../changelog.template > debian/changelog
     debuild -S ${DEBUILD_OPT}
 done 
 echo_clr "All changes files signed."

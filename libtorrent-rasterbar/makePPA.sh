@@ -20,7 +20,7 @@
 
 set -e
 
-VERSION="1.2"
+VERSION="1.3"
 
 PROGRAM_NAME="libtorrent-rasterbar"
 SCRIPT_NAME=$0
@@ -43,6 +43,13 @@ PPA_KEY="F1B89752"
 # If true, use 'libtorrent_1_X_X' instead of 'libtorrent-1_X_X'
 USE_OLD_URL_FORMAT=${USE_OLD_URL_FORMAT:-false}
 
+# distribution name placeholder, used by sed
+DIST_PLACEHOLDER="DISTRO"
+
+# Options for dch
+DCH_OPT="--package ${PROGRAM_NAME} --distribution ${DIST_PLACEHOLDER} --force-distribution --force-bad-version"
+
+# Options for debuild
 DEBUILD_OPT="-k${PPA_KEY}"
 # Prefer using gpg2 for package signing
 if hash gpg2 2>/dev/null;
@@ -123,11 +130,8 @@ quilt push -a
 
 # 6. Add new release to changelog
 echo_clr "Add new release to changelog"
-dch --package "${PROGRAM_NAME}" \
-    --distribution %DISTRO% \
-    --force-distribution \
-    --force-bad-version \
-    --newversion "${DEB_VERSION}-${SUB_VERSION}ppa1~%DISTRO%1" \
+dch ${DCH_OPT} \
+    --newversion "${DEB_VERSION}-${SUB_VERSION}ppa1~${DIST_PLACEHOLDER}1" \
     "New upstream version ${DEB_VERSION}" 2>/dev/null
 head -n 5 debian/changelog
 
@@ -137,7 +141,7 @@ cp debian/changelog ../changelog.template
 for DISTRO in ${DISTROS}; 
 do
     echo_clr "signing ${DISTRO}..."
-    sed "s/%DISTRO%/${DISTRO}/g" ../changelog.template > debian/changelog
+    sed "s/${DIST_PLACEHOLDER}/${DISTRO}/g" ../changelog.template > debian/changelog
     debuild -S ${DEBUILD_OPT}
 done 
 echo_clr "All changes files signed."

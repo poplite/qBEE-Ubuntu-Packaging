@@ -20,7 +20,7 @@
 
 set -e
 
-VERSION="1.1"
+VERSION="1.2"
 
 PROGRAM_NAME="libtorrent-rasterbar"
 SCRIPT_NAME=$0
@@ -37,6 +37,9 @@ export DEBEMAIL="poplite.xyz@gmail.com"
 
 # If true, use 'libtorrent_1_X_X' instead of 'libtorrent-1_X_X'
 USE_OLD_URL_FORMAT=${USE_OLD_URL_FORMAT:-false}
+
+# Options for dch
+DCH_OPT="--package ${PROGRAM_NAME} --distribution ${DISTRO} --force-distribution --force-bad-version"
 
 # Check if running as root
 if [[ $(id -u) != 0 ]];
@@ -119,10 +122,7 @@ quilt push -a
 
 # 7. Add new release to changelog
 echo_clr "Add new release to changelog"
-dch --package "${PROGRAM_NAME}" \
-    --distribution "${DISTRO}" \
-    --force-distribution \
-    --force-bad-version \
+dch ${DCH_OPT} \
     --newversion "${DEB_VERSION}-${SUB_VERSION}~${DISTRO}1" \
     "New upstream version ${DEB_VERSION}" 2>/dev/null
 head -n 5 debian/changelog
