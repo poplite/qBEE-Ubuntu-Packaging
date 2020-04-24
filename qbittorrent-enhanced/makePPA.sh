@@ -30,7 +30,7 @@ DEB_VERSION=$1
 SUB_VERSION=${2:-"1"}
 
 # Supported distributions
-DISTROS=${DISTROS:-"xenial bionic disco eoan"}
+DISTROS=${DISTROS:-"xenial bionic disco eoan focal"}
 
 # Maintainer information, needed by dch
 export DEBFULLNAME="poplite"

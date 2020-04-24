@@ -1,0 +1,114 @@
+Remove python2 bindings and fix a filename pattern error for python3.8 bindings.
+
+Note that this patch is only compatible with ubuntu 20.04 (Focal), and may cause problems with other distros.
+
+--- a/debian/control
++++ b/debian/control
+@@ -12,8 +12,6 @@
+                libssl-dev,
+                libgeoip-dev,
+                pkg-config,
+-               python-all-dev (>= 2.6.6-3~),
+-#              python-all-dbg,
+                python-docutils,
+                python3-all-dev,
+ #              python3-all-dbg,
+@@ -22,7 +20,6 @@
+ Vcs-Git: https://salsa.debian.org/debian/libtorrent-rasterbar.git
+ Vcs-Browser: https://salsa.debian.org/debian/libtorrent-rasterbar/
+ Homepage: https://libtorrent.org/
+-X-Python-Version: >= 2.4
+ X-Python3-Version: >= 3.1
+ 
+ Package: libtorrent-rasterbar10
+@@ -95,43 +92,6 @@
+  .
+  This package contains documentation and example files.
+ 
+-Package: python-libtorrent
+-Section: python
+-Architecture: any
+-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, libtorrent-rasterbar10 (= ${binary:Version})
+-Provides: ${python:Provides}
+-Breaks: ${python:Breaks}
+-Description: Python bindings for libtorrent-rasterbar
+- Bittorrent library by Rasterbar Software (Arvid Norberg).
+- libtorrent-rasterbar is a C++ library that aims to be a good alternative to
+- all the other bittorrent implementations around.
+- .
+- The main goals of libtorrent-rasterbar are:
+-  * to be cpu efficient
+-  * to be memory efficient
+-  * to be very easy to use
+- .
+- This package contains Python bindings for the libtorrent-rasterbar library.
+-
+-#Package: python-libtorrent-dbg
+-#Section: debug
+-#Architecture: any
+-#Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-libtorrent (= ${binary:Version}), python-dbg
+-#Provides: ${python:Provides}
+-#Breaks: ${python:Breaks}
+-#Description: Python bindings for libtorrent-rasterbar (debug symbols)
+-# Bittorrent library by Rasterbar Software (Arvid Norberg).
+-# libtorrent-rasterbar is a C++ library that aims to be a good alternative to
+-# all the other bittorrent implementations around.
+-# .
+-# The main goals of libtorrent-rasterbar are:
+-#  * to be cpu efficient
+-#  * to be memory efficient
+-#  * to be very easy to use
+-# .
+-# This package contains Python bindings for the libtorrent-rasterbar library
+-# (debug symbols).
+-#
+ Package: python3-libtorrent
+ Section: python
+ Architecture: any
+--- a/debian/python-libtorrent-dbg.install
++++ /dev/null
+@@ -1 +0,0 @@
+-usr/lib/python2*/*-packages/libtorrent_d.so
+--- a/debian/python-libtorrent.install
++++ /dev/null
+@@ -1,2 +0,0 @@
+-usr/lib/python2*/*-packages/libtorrent.so
+-usr/lib/python2*/*-packages/*.egg-info
+--- a/debian/rules
++++ b/debian/rules
+@@ -2,18 +2,16 @@
+ 
+ DPKG_EXPORT_BUILDFLAGS = 1
+ include /usr/share/dpkg/buildflags.mk
+-
+ export DEB_LDFLAGS_MAINT_APPEND  = -Wl,--as-needed
+ 
+-PYTHON2=$(shell pyversions -vr)
+ PYTHON3=$(shell py3versions -vr)
+-#ALLPY=$(PYTHON2) $(PYTHON3) $(PYTHON2:%=%-dbg) $(PYTHON3:%=%-dbg)
+-ALLPY=$(PYTHON2) $(PYTHON3)
++#ALLPY=$(PYTHON3) $(PYTHON3:%=%-dbg)
++ALLPY=$(PYTHON3)
+ 
+ CONFIGURE_ARGS = --with-libiconv --with-boost-libdir=/usr/lib/$(DEB_HOST_MULTIARCH) CXXFLAGS=-std=c++14 CPPFLAGS=-std=c++14
+ 
+ %:
+-	dh $@ --parallel --with autoreconf,python2,python3
++	dh $@ --parallel --with autoreconf,python3
+ 
+ override_dh_auto_configure-nopy:
+ 	dh_auto_configure --builddirectory build -- $(CONFIGURE_ARGS)
+@@ -65,3 +63,7 @@
+ 
+ override_dh_makeshlibs:
+ 	dh_makeshlibs -V
++
++override_dh_python3:
++	find debian/python3-libtorrent -name '*.cpython-*d*-$(DEB_HOST_MULTIARCH).so' | xargs -r rm -f
++	dh_python3
+--- a/debian/python3-libtorrent.install
++++ b/debian/python3-libtorrent.install
+@@ -1,2 +1,2 @@
+-usr/lib/python3*/*-packages/*[!d]m*.so
++usr/lib/python3*/*-packages/*[!d]*.so
+ usr/lib/python3*/*-packages/*.egg-info

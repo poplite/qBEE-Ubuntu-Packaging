@@ -30,7 +30,7 @@ DEB_VERSION=$1
 SUB_VERSION=${2:-"1"}
 
 # Supported distributions
-DISTROS=${DISTROS:-"xenial bionic disco eoan"}
+DISTROS=${DISTROS:-"xenial bionic disco eoan focal"}
 
 # Maintainer information, needed by dch
 export DEBFULLNAME="poplite"
@@ -140,6 +140,14 @@ echo_clr "signing changes files..."
 cp debian/changelog ../changelog.template
 for DISTRO in ${DISTROS}; 
 do
+    # Just an ugly fix, it may be improved in later version.
+    # Make sure focal is the last distro to sign, for this patch is uncompatible with other distros.
+    if [[ ${DISTRO} == "focal" ]]
+    then
+        echo_clr "Applying python bindings patch for focal..."
+        patch -p1 < ../../ubuntu20.04-fix-python-bindings.patch
+    fi
+
     echo_clr "signing ${DISTRO}..."
     sed "s/${DIST_PLACEHOLDER}/${DISTRO}/g" ../changelog.template > debian/changelog
     debuild -S ${DEBUILD_OPT}

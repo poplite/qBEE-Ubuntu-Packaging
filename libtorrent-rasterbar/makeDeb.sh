@@ -128,6 +128,15 @@ dch ${DCH_OPT} \
 head -n 5 debian/changelog
 
 # 8. Build package
+
+# Just an ugly fix, it may be improved in later version.
+# Make sure focal is the last distro to sign, for this patch is uncompatible with other distros.
+if [[ ${DISTRO} == "focal" ]]
+then
+    echo_clr "Applying python bindings patch for focal..."
+    patch -p1 < ../../ubuntu20.04-fix-python-bindings.patch
+fi
+
 echo_clr "Building package..."
 debuild -b ${DEBUILD_OPT}
 
