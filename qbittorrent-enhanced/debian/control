@@ -17,7 +17,7 @@ Homepage: https://github.com/c0re100/qBittorrent-Enhanced-Edition
 Package: qbittorrent-enhanced
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
-         python (>= 2.5), geoip-database
+         python3, geoip-database
 #Suggests: qbittorrent-enhanced-dbg
 Conflicts: qbittorrent
 Description: bittorrent client based on libtorrent-rasterbar with a Qt5 GUI (Enhanced Edition)
