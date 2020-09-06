@@ -27,13 +27,16 @@ License: GPL-2+
     Public License can be found in `/usr/share/common-licenses/GPL-2'.
 
 
-Files: * *.cpp *.hpp docs/*.rst docs/*.html
-Copyright: 2003-2008 Arvid Norberg
-Comment: Contributors:
-           2003-2007 Daniel Wallin
-           2007 Un Shyam
-           2006 Magnus Jonsson
-           2006 MassaRoddel
+Files: *
+       bindings/python/src/error_code.cpp
+Copyright: 2003-2020 Arvid Norberg
+           2014-2016 Alden Torres
+           2005-2018 Steven Siloti
+           2003-2018 Daniel Wallin
+           2006-2018 Magnus Jonsson
+           2007-2018 Un Shyam
+           2006-2018 MassaRoddel
+           2006-2018 Thomas Yuan
 License: BSD-3-clause
     Redistribution and use in source and binary forms, with or without
     modification, are permitted provided that the following conditions
@@ -62,13 +65,13 @@ License: BSD-3-clause
     POSSIBILITY OF SUCH DAMAGE.
 
 
-Files: bindings/python/*.py
-       bindings/python/src/*.cpp
-       bindings/python/src/*.hpp
+Files: bindings/python/*
        include/libtorrent/invariant_check.hpp
+       include/libtorrent/aux_/cppint_import_export.hpp
 Copyright: 2004-2007 Daniel Wallin
            2006-2008 Arvid Norberg
            2008 Andrew Resch
+           2015 John Maddock
 License: BSL-1.0
     Boost Software License - Version 1.0 - August 17th, 2003
     .
@@ -129,6 +132,7 @@ License: other
 
 
 Files: include/libtorrent/puff.hpp
+       src/puff.cpp
 Copyright: 2002-2003 Mark Adler
 License: Zlib
     This software is provided 'as-is', without any express or implied
@@ -149,7 +153,106 @@ License: Zlib
            distribution.
 
 
+Files: m4/
+Copyright: 2008 Thomas Porschberg <thomas@randspringer.de>
+           2009 Peter Adolphs
+           2008 Michael Tindal
+           2008 Daniel Casimiro <dan.casimiro@gmail.com>
+           2009, 2010 Zmanda Inc. <http://www.zmanda.com/>
+           2009, 2010 Dustin J. Mitchell <dustin@zmanda.com>
+           2008 Benjamin Kosnik <bkoz@redhat.com>
+           2012 Zack Weinberg <zackw@panix.com>
+           2013 Roy Stogner <roystgnr@ices.utexas.edu>
+           2014, 2015 Google Inc.; contributed by Alexey Sokolov <sokolov@google.com>
+           2015 Paul Norman <penorman@mac.com>
+           2015 Moritz Klammler <moritz@klammler.eu>
+           2004-2005, 2007, 2009, 2011-2015 Free Software Foundation, Inc.
+License: FSF All Permissive License
+    Copying and distribution of this file, with or without modification, are
+    permitted in any medium without royalty provided the copyright notice
+    and this notice are preserved. This file is offered as-is, without any
+    warranty.
+
+
+Files: m4/ax_pthread.m4
+       m4/ax_python_devel.m4
+Copyright: 2008 Steven G. Johnson <stevenj@alum.mit.edu>
+           2009 Sebastian Huber <sebastian-huber@web.de>
+           2009 Alan W. Irwin
+           2009 Rafael Laboissiere <rafael@laboissiere.net>
+           2009 Andrew Collier
+           2009 Matteo Settenvini <matteo@member.fsf.org>
+           2009 Horst Knorr <hk_classes@knoda.org>
+           2013 Daniel Mullner <muellner@math.stanford.edu>
+License: GPL-3+  with autoconf exception
+    This program is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation, either version 3 of the License, or (at your
+    option) any later version.
+    .
+    This program is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+    Public License for more details.
+    .
+    You should have received a copy of the GNU General Public License along
+    with this program. If not, see <http://www.gnu.org/licenses/>.
+    .
+    As a special exception, the respective Autoconf Macro's copyright owner
+    gives unlimited permission to copy, distribute and modify the configure
+    scripts that are the output of Autoconf when processing the Macro. You
+    need not follow the terms of the GNU General Public License when using
+    or distributing such scripts, even though portions of the text of the
+    Macro appear in them. The GNU General Public License (GPL) does govern
+    all other use of the material that constitutes the Autoconf Macro.
+    .
+    This special exception to the GPL applies to versions of the Autoconf
+    Macro released by the Autoconf Archive. When you make and distribute a
+    modified version of the Autoconf Macro, you may extend this special
+    exception to the GPL to apply to your modified version as well.
+    .
+    On Debian systems, the complete text of the GNU General Public License
+    Version 3 can be found in `/usr/share/common-licenses/GPL-3'.
+
+
+Files: m4/ax_boost_python.m4
+       m4/iconv.m4
+       m4/pkgconfig.m4
+       build-aux/compile
+       build-aux/config.rpath
+       build-aux/depcomp
+       build-aux/ltmain.in
+       build-aux/missing
+       build-aux/test-driver
+Copyright: 2008 Michael Tindal
+           2013 Daniel M"ullner <daniel@danifold.net>
+           2000-2002 Free Software Foundation, Inc.
+           2004 Scott James Remnant <scott@netsplit.com>
+License: GPL-2.0+ with autoconf exception
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2, or (at your option)
+    any later version.
+    .
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    .
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    .
+    As a special exception to the GNU General Public License, if you
+    distribute this file as part of a program that contains a
+    configuration script generated by Autoconf, you may include it under
+    the same distribution terms that you use for the rest of that program.
+    .
+    On Debian systems, the complete text of the GNU General Public License
+    Version 2 can be found in `/usr/share/common-licenses/GPL-2'.
+
+
 Files: src/sha1.cpp
+       include/libtorrent/sha1.hpp
 Copyright: Steve Reid <sreid@sea-to-sky.net>
 Comment: Contributors:
            Modified 7/98 By James H. Brown <jbrown@burgoyne.com>
@@ -158,3 +261,43 @@ Comment: Contributors:
            Converted to C++ 6/04 By Arvid Norberg <arvidn@sourceforge.net>
 License: public-domain
     The file sha1.c was put in the public domain by Steve Reid.
+
+
+Files: ed25519/
+License: public-domain
+    All code is in the public domain.
+
+
+Files: include/libtorrent/sha512.hpp
+       src/sha512.cpp
+License: public-domain
+    The library is free for all purposes without any express guarantee it works.
+
+
+Files: test/http.py
+       cmake/Modules/ucm_flags.cmake
+       build-aux/install-sh
+Copyright: 2009 Fábio Domingues <fnds3000@gmail.com>
+           2016 Viktor Kirilov
+           1994 X Consortium
+License: Expat
+    Permission is hereby granted, free of charge, to any person
+    obtaining a copy of this software and associated documentation
+    files (the "Software"), to deal in the Software without
+    restriction, including without limitation the rights to use,
+    copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following
+    conditions:
+    .
+    The above copyright notice and this permission notice shall be
+    included in all copies or substantial portions of the Software.
+    .
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+    OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+    HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+    WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+    OTHER DEALINGS IN THE SOFTWARE.
