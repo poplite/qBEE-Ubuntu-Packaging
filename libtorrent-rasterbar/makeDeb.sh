@@ -20,10 +20,13 @@
 
 set -e
 
-VERSION="1.2"
+VERSION="1.4"
 
 PROGRAM_NAME="libtorrent-rasterbar"
 SCRIPT_NAME=$0
+
+# Currently supported version
+CURR_VERSION="1.2.10"
 
 # Read version and distro name from argument
 DEB_VERSION=$1
@@ -31,12 +34,12 @@ SUB_VERSION="1"
 DISTRO=${2:-$(lsb_release -sc || true)} # ignore error
 ARCH=$(dpkg --print-architecture)
 
+# If set as 'no', do not run apt-get to install dependencies
+INSTALL_DEPS=${INSTALL_DEPS:-"yes"}
+
 # Maintainer information, needed by dch
 export DEBFULLNAME="poplite"
 export DEBEMAIL="poplite.xyz@gmail.com"
-
-# If true, use 'libtorrent_1_X_X' instead of 'libtorrent-1_X_X'
-USE_OLD_URL_FORMAT=${USE_OLD_URL_FORMAT:-false}
 
 # Options for dch
 DCH_OPT="--package ${PROGRAM_NAME} --distribution ${DISTRO} --force-distribution --force-bad-version"
@@ -56,14 +59,7 @@ DEPENDS="libboost-system-dev libboost-python-dev libboost-chrono-dev libboost-ra
 
 BUILD_DIR="${DEB_VERSION}-build"
 SOURCE_DIR="${PROGRAM_NAME}-${DEB_VERSION}"
-TARBALL="${PROGRAM_NAME}_${DEB_VERSION}.orig.tar.gz"
-
-if ! ${USE_OLD_URL_FORMAT};
-then
-    TARBALL_URL="https://github.com/arvidn/libtorrent/releases/download/libtorrent-${DEB_VERSION//./_}/libtorrent-rasterbar-${DEB_VERSION}.tar.gz"
-else
-    TARBALL_URL="https://github.com/arvidn/libtorrent/releases/download/libtorrent_${DEB_VERSION//./_}/libtorrent-rasterbar-${DEB_VERSION}.tar.gz"
-fi
+TARBALL_ORIG="${PROGRAM_NAME}_${DEB_VERSION}.orig.tar.gz"
 
 BOLD_GREEN="\e[1;32m"
 CLEAR_CLR="\e[0m"
@@ -73,10 +69,11 @@ echo_clr() {
 }
 
 usage() {
-    echo -e "makeDeb.sh for ${PROGRAM_NAME}"
+    echo -e "${BOLD_GREEN}makeDeb.sh for ${PROGRAM_NAME}${CLEAR_CLR}"
     echo -e "Usage: ${SCRIPT_NAME} version [distro]\n"
-    echo -e "version - Build version (Example: 1.1.13)"
-    echo -e "distro  - Distribution codename (Example: bionic)"
+    echo -e "Options:"
+    echo -e "  version    - Main version          (Recommended: ${BOLD_GREEN}${CURR_VERSION}${CLEAR_CLR})"
+    echo -e "  distro     - Distribution codename (Default: ${BOLD_GREEN}${DISTRO}${CLEAR_CLR})"
 }
 
 print_info() {
@@ -86,17 +83,26 @@ print_info() {
     echo -e "Debuild options:" "${BOLD_GREEN}${DEBUILD_OPT}${CLEAR_CLR}"
 }
 
-[ -z "${DEB_VERSION}" ] && usage && exit 1
 [ -z "${DISTRO}" ] && echo "Failed to detect distro name" && DISTRO="stable"
 [ -z "${ARCH}" ] && echo "Failed to detect architecture"
+
+# Show help
+if [ -z "${DEB_VERSION}" ] || [ "$1" == "-h" ] || [ "$1" == "--help" ];
+then
+  usage
+  exit 1
+fi
 
 print_info
 
 # 1. Install dependencies
-echo_clr "Installing dependencies..."
-${SUDO} apt-get update
-${SUDO} apt-get install ${BUILD_DEPENDS} -y
-${SUDO} apt-get install ${DEPENDS} -y
+if [ "$INSTALL_DEPS" != "no" ];
+then
+  echo_clr "Installing dependencies..."
+  ${SUDO} apt-get update
+  ${SUDO} apt-get install ${BUILD_DEPENDS} -y
+  ${SUDO} apt-get install ${DEPENDS} -y
+fi
 
 # 2. Create build directory
 [ -d "${BUILD_DIR}" ] && rm -rf "${BUILD_DIR}"
@@ -105,11 +111,22 @@ cd "${BUILD_DIR}"
 
 # 3. Download tarball from Github
 echo_clr "Downloading tarball..."
-echo "${TARBALL_URL}"
-curl -L "${TARBALL_URL}" -o "${TARBALL}"
+if [ "$TARBALL_DOWNLOAD_URL" != "" ];
+then
+  # If $TARBALL_DOWNLOAD_URL is set, try to download it using curl
+  echo "${TARBALL_DOWNLOAD_URL}"
+  curl -L "${TARBALL_DOWNLOAD_URL}" -o "${TARBALL_ORIG}"
+else
+  # Otherwise, run uscan to download the tarball
+  echo_clr "NOTE: If the version you specified is too old, uscan may fail to find the tarball download URL on Github.
+If so, please specify the download URL manually: TARBALL_DOWNLOAD_URL=XXXXXX ${SCRIPT_NAME} ${DEB_VERSION} ${SUB_VERSION}"
+  uscan --package "${PROGRAM_NAME}" --watchfile ../debian/watch                   \
+        --upstream-version "${DEB_VERSION}" --download-version "${DEB_VERSION}"   \
+        --overwrite-download --no-signature --rename --destdir ./ --verbose
+fi
 
 # 4. Extract the tarball
-tar -xzf "${TARBALL}"
+tar -xzf "${TARBALL_ORIG}"
 
 # 5. Copy debian directory
 cp -R ../debian "${SOURCE_DIR}"

@@ -20,10 +20,13 @@
 
 set -e
 
-VERSION="1.3"
+VERSION="1.4"
 
 PROGRAM_NAME="libtorrent-rasterbar"
 SCRIPT_NAME=$0
+
+# Currently supported version
+CURR_VERSION="1.2.10"
 
 # Read version from argument
 DEB_VERSION=$1
@@ -40,9 +43,6 @@ export DEBEMAIL="poplite.xyz@gmail.com"
 PPA_URL=${PPA_URL:-"ppa:poplite/qbittorrent-enhanced"}
 PPA_KEY="F1B89752"
 
-# If true, use 'libtorrent_1_X_X' instead of 'libtorrent-1_X_X'
-USE_OLD_URL_FORMAT=${USE_OLD_URL_FORMAT:-false}
-
 # distribution name placeholder, used by sed
 DIST_PLACEHOLDER="DISTRO"
 
@@ -58,14 +58,7 @@ then
 fi
 
 SOURCE_DIR="${PROGRAM_NAME}-${DEB_VERSION}"
-TARBALL="${PROGRAM_NAME}_${DEB_VERSION}.orig.tar.gz"
-
-if ! ${USE_OLD_URL_FORMAT};
-then
-    TARBALL_URL="https://github.com/arvidn/libtorrent/releases/download/libtorrent-${DEB_VERSION//./_}/libtorrent-rasterbar-${DEB_VERSION}.tar.gz"
-else
-    TARBALL_URL="https://github.com/arvidn/libtorrent/releases/download/libtorrent_${DEB_VERSION//./_}/libtorrent-rasterbar-${DEB_VERSION}.tar.gz"
-fi
+TARBALL_ORIG="${PROGRAM_NAME}_${DEB_VERSION}.orig.tar.gz"
 
 BOLD_GREEN="\e[1;32m"
 CLEAR_CLR="\e[0m"
@@ -75,14 +68,15 @@ echo_clr() {
 }
 
 usage() {
-    echo -e "makePPA.sh for ${PROGRAM_NAME}"
+    echo -e "${BOLD_GREEN}makePPA.sh for ${PROGRAM_NAME}${CLEAR_CLR}"
     echo -e "Usage: ${SCRIPT_NAME} version [sub-version]\n"
-    echo -e "version     - Main version (Example: 1.1.13)"
-    echo -e "sub-version - Sub version  (Default: 1)"
+    echo -e "Options:"
+    echo -e "  version     - Main version (Recommended: ${BOLD_GREEN}${CURR_VERSION}${CLEAR_CLR})"
+    echo -e "  sub-version - Sub version  (Default: 1)"
 }
 
 check_depends() {
-    depends="curl quilt dch debuild dput"
+    depends="curl quilt dch debuild dput uscan"
     for depend in ${depends}; 
     do
         if ! hash "$depend" 2>/dev/null; 
@@ -101,7 +95,13 @@ print_info() {
     echo -e "Debuild options:" "${BOLD_GREEN}${DEBUILD_OPT}${CLEAR_CLR}"
 }
 
-[ -z "${DEB_VERSION}" ] && usage && exit 1
+# Show help
+if [ -z "${DEB_VERSION}" ] || [ "$1" == "-h" ] || [ "$1" == "--help" ];
+then
+  usage
+  exit 1
+fi
+
 check_depends
 
 print_info
@@ -113,11 +113,22 @@ cd "${DEB_VERSION}"
 
 # 2. Download tarball from Github
 echo_clr "Downloading tarball..."
-echo "${TARBALL_URL}"
-curl -L "${TARBALL_URL}" -o "${TARBALL}"
+if [[ "$TARBALL_DOWNLOAD_URL" != "" ]];
+then
+  # If $TARBALL_DOWNLOAD_URL is set, try to download it using curl
+  echo "${TARBALL_DOWNLOAD_URL}"
+  curl -L "${TARBALL_DOWNLOAD_URL}" -o "${TARBALL_ORIG}"
+else
+  # Otherwise, run uscan to download the tarball
+  echo_clr "NOTE: If the version you specified is too old, uscan may fail to find the tarball download URL on Github.
+If so, please specify the download URL manually: TARBALL_DOWNLOAD_URL=XXXXXX ${SCRIPT_NAME} ${DEB_VERSION} ${SUB_VERSION}"
+  uscan --package "${PROGRAM_NAME}" --watchfile ../debian/watch                   \
+        --upstream-version "${DEB_VERSION}" --download-version "${DEB_VERSION}"   \
+        --overwrite-download --no-signature --rename --destdir ./ --verbose
+fi
 
 # 3. Extract the tarball
-tar -xzf "${TARBALL}"
+tar -xzf "${TARBALL_ORIG}"
 
 # 4. Copy debian directory
 cp -R ../debian "${SOURCE_DIR}"
